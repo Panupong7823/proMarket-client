@@ -1,0 +1,17 @@
+.pp_noti {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px; 
+    width: 70%; 
+    margin: auto;
+    background-color: #e195f4; 
+    border: none; 
+    padding: 20px; 
+    border-radius: 5px; 
+  }
+h1 {
+    color: red;
+    text-align: center;
+}

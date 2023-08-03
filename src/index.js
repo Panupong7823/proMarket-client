@@ -7,7 +7,8 @@ import Welcome from'./pages/Welcom.js';
 import ReTem from'./pages/ReTem.js';
 import Home from './pages/Home';
 import InfoOd from './pages/InfoOd';
-
+import Ucreate from './pages/Ucreate';
+import Uedit from './pages/Uedit';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,14 @@ const router = createBrowserRouter([
   {
     path: "/o",
     element: <InfoOd />
+  },
+  {
+    path: "/uc",
+    element: <Ucreate />
+  },
+  {
+    path: "/update/:id",
+    element: <Uedit />
   }
 ])
 

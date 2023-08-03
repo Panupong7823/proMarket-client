@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import NavH from '../components/NavH';
 import './Welcom'
-
+import axios from 'axios';
 
 
 export default function ReTem() {
@@ -23,25 +23,23 @@ export default function ReTem() {
             lastname: data.get('lastname'),
             career: data.get('career'),
             tel: data.get('tel'),
-       }
-        fetch("http://localhost:3001/regis", {
-            method: "POST",
+        }
+        axios.post("http://localhost:3001/regis", jsonData, {
             headers: {
                 "Content-Type": "application/json",
-            },
-            body: JSON.stringify(jsonData),
-        })
-            .then(response => response.json())
+            }
+        ,})
+            .then(response => response.data)
             .then(data => {
                 if (data.status === 'ok') {
-                    alert('success')
-                } else
-                    alert('failed')
-                //console.log('Success:',data)
+                    alert('success');
+                } else {
+                    alert('failed');
+                }
             })
-            .catch((error) => {
-                console.log('Error', error)
-            })
+            .catch(error => {
+                console.log('Error', error);
+            });
     };
 
     return (
@@ -70,7 +68,7 @@ export default function ReTem() {
                                     fullWidth
                                     id="firstName"
                                     label="Firstname"
-                                    
+
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -81,7 +79,7 @@ export default function ReTem() {
                                     label="Lastname"
                                     name="lastname"
                                     aria-valuetext=''
-                                   
+
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>

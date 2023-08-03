@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import NavH from '../components/NavH';
+import axios from 'axios';
 
 
 
@@ -24,26 +25,24 @@ export default function SignIn() {
       password: data.get('password'),
     }
 
-    fetch("http://localhost:3001/login", {
-      method: "POST",
+    axios.post("http://localhost:3001/login", JSON.stringify(logdata), {
       headers: {
         "Content-Type": "application/json",
-      },
-      body: JSON.stringify(logdata),
+      }, 
     })
-      .then(response => response.json())
+      .then(response => response.data)
       .then(data => {
         if (data.status === 'ok') {
-          localStorage.setItem('token',data.token)
-          window.location = '/h'
-          alert('success')
-        } else
-          alert('failed')
-        //console.log('Success:',data)
+          localStorage.setItem('token', data.token);
+          window.location = '/h';
+          alert('success');
+        } else {
+          alert('failed');
+        }
       })
-      .catch((error) => {
-        console.log('Error', error)
-      })
+      .catch(error => {
+        console.log('Error', error);
+      });
   };
 
   return (

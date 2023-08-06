@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import InfoOd from './pages/InfoOd';
 import Ucreate from './pages/Ucreate';
 import Uedit from './pages/Uedit';
+import Checkbl from './pages/Checkbl';
+import profile from './pages/profile';
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,16 @@ const router = createBrowserRouter([
   {
     path: "/update/:id",
     element: <Uedit />
+  }
+  ,
+  {
+    path: "/cb",
+    element: <Checkbl />
+  }
+  ,
+  {
+    path: "/p",
+    element: <profile />
   }
 ])
 

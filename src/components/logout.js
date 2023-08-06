@@ -12,7 +12,7 @@ const logout = ({ onClick }) => {
       onClick={onClick}
       style={{ cursor: 'pointer' }}
     >
-      
+
     </svg>
   );
 };

@@ -52,10 +52,7 @@ export default function InfoOd() {
       .then(response => response.json())
       .then(result => {
         alert("Delete Success")
-        if (result['status'] === 'ok') {
           UserGet();
-          window.location.reload();
-        }
       })
       .catch(error => console.log('error', error));
   }
@@ -95,7 +92,7 @@ export default function InfoOd() {
                 <TableBody>
                   {items.map((row) => (
                     <TableRow
-                      key={row.name}
+                      key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">

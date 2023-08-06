@@ -1,49 +1,71 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Checkbox from '@mui/material/Checkbox';
-// import Link from '@mui/material/Link';
+import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import NavH from '../components/NavH';
-import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 
 
 export default function SignIn() {
-
-  const handleSubmit = (event) => {
+  const navigate = useNavigate()
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [userRole, setUserRole] = useState(null); // เก็บข้อมูลสิทธิ์ของผู้ใช้
+  
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
     const logdata = {
       username: data.get('username'),
       password: data.get('password'),
-    }
+    };
 
-    axios.post("http://localhost:3001/login", JSON.stringify(logdata), {
-      headers: {
-        "Content-Type": "application/json",
-      }, 
-    })
-      .then(response => response.data)
-      .then(data => {
-        if (data.status === 'ok') {
-          localStorage.setItem('token', data.token);
-          window.location = '/h';
-          alert('success');
-        } else {
-          alert('failed');
-        }
-      })
-      .catch(error => {
-        console.log('Error', error);
+    try {
+      const response = await fetch("http://localhost:3001/login", {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(logdata),
       });
+
+      const data = await response.json();
+
+      if (data.status === 'ok') {
+        localStorage.setItem('token', data.token);
+        setLoginSuccess(true); // เก็บสถานะการล็อกอินสำเร็จ
+
+        // เก็บสิทธิ์ของผู้ใช้จาก row ของผู้ใช้ที่ล็อกอินเข้าสู่ระบบ
+        setUserRole(data.user);
+
+        alert('success');
+      } else {
+        alert('failed');
+      }
+    } catch (error) {
+      console.log('Error', error);
+    }
   };
+
+  // หากล็อกอินสำเร็จให้เปลี่ยนหน้าไปยังหน้าที่กำหนดตามสิทธิ์ของผู้ใช้
+  if (loginSuccess) {
+    switch (userRole) {
+      case 1:
+        navigate('/h'); 
+        break;
+      case 0:
+        navigate('/h'); 
+        break;
+      default:
+        break;
+    }
+    return renderPageBasedOnUserRole(userRole);
+  }
 
   return (
     <>
@@ -82,10 +104,6 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             <Button
               type="submit"
               fullWidth
@@ -112,3 +130,15 @@ export default function SignIn() {
     </>
   );
 }
+
+
+function renderPageBasedOnUserRole(userRole) {
+  if (userRole === 1) { 
+    return 
+  } else if (userRole === 0) { 
+    return 
+  } else {
+    return <div>not found</div>;
+  }
+}
+

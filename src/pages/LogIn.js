@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import NavH from '../components/NavH';
+import Navl from '../components/Navl';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -55,10 +55,10 @@ export default function SignIn() {
   // หากล็อกอินสำเร็จให้เปลี่ยนหน้าไปยังหน้าที่กำหนดตามสิทธิ์ของผู้ใช้
   if (loginSuccess) {
     switch (userRole) {
-      case 1:
-        navigate('/h'); 
+      case 2:
+        navigate('/hAd'); 
         break;
-      case 0:
+      case 3:
         navigate('/h'); 
         break;
       default:
@@ -69,7 +69,7 @@ export default function SignIn() {
 
   return (
     <>
-      <NavH />
+      <Navl />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -133,12 +133,11 @@ export default function SignIn() {
 
 
 function renderPageBasedOnUserRole(userRole) {
-  if (userRole === 1) { 
+  if (userRole === 2) { 
     return 
-  } else if (userRole === 0) { 
-    return 
+  } else if (userRole === 3) { 
+    return <div>customer page</div>
   } else {
     return <div>not found</div>;
   }
 }
-

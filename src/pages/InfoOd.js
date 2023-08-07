@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import NavC from '../components/NavC';
+import Nav from '../components/Nav';
 import { Button, Typography, Paper, ButtonGroup } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -60,7 +60,7 @@ export default function InfoOd() {
 
   return (
     <>
-      <NavC />
+      <Nav />
       <React.Fragment>
         <CssBaseline />
         <Container maxWidth="lg" sx={{ p: 3 }}>
@@ -81,7 +81,7 @@ export default function InfoOd() {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Id</TableCell>
+                    <TableCell>Customer ID</TableCell>
                     <TableCell align="center">FirstName</TableCell>
                     <TableCell align="center">LastName</TableCell>
                     <TableCell align="center">Career</TableCell>
@@ -95,9 +95,7 @@ export default function InfoOd() {
                       key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell component="th" scope="row">
-                        {row.id}
-                      </TableCell>
+                      <TableCell align="center">{row.cs_id}</TableCell>
                       <TableCell align="center">{row.firstname}</TableCell>
                       <TableCell align="center">{row.lastname}</TableCell>
                       <TableCell align="center">{row.career}</TableCell>

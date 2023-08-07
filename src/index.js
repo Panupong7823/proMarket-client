@@ -2,32 +2,37 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { createBrowserRouter,RouterProvider,Route,Link } from 'react-router-dom';
-import Welcome from'./pages/Welcom.js';
-import ReTem from'./pages/ReTem.js';
+import { createBrowserRouter,RouterProvider } from 'react-router-dom';
+import LogIn from './pages/LogIn';
 import Home from './pages/Home';
 import InfoOd from './pages/InfoOd';
 import Ucreate from './pages/Ucreate';
 import Uedit from './pages/Uedit';
 import Checkbl from './pages/Checkbl';
-import profile from './pages/profile';
+import HomeAD from './pages/HomeAD';
+import InfoBalance from './pages/InfoBalance';
+
 
 const router = createBrowserRouter([
   {
   path: "/",
-  element: <Welcome />
+  element: <LogIn />
   },
   {
     path: "/h",
     element: <Home />
   },
   {
-    path: "/r",
-    element: <ReTem />
+    path: "/hAd",
+    element: <HomeAD />
   },
   {
     path: "/o",
     element: <InfoOd />
+  },
+  {
+    path: "/iBl",
+    element: <InfoBalance />
   },
   {
     path: "/uc",
@@ -41,11 +46,6 @@ const router = createBrowserRouter([
   {
     path: "/cb",
     element: <Checkbl />
-  }
-  ,
-  {
-    path: "/p",
-    element: <profile />
   }
 ])
 

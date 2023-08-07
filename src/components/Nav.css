@@ -1,37 +1,56 @@
-nav{
+nav {
     background-color: rgba(219, 169, 247, 0.5);
     padding: 1rem;
     text-align: right;
 }
+
 nav a {
     color: black;
     text-decoration: none;
     margin: 0 5px;
 }
-nav h2{
+
+nav h2 {
     color: rgb(0, 0, 71);
     text-align: left;
     margin: 0 5px;
 }
+
 .Sub {
     background-color: rgb(189, 136, 220);
     padding: 0.1px;
     width: 100%;
     height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
-.Sub h4{
+
+.Sub h4 {
     text-align: left;
     height: 1px;
     width: auto;
     margin-left: 22px;
     margin-top: 10px;
 }
+.Sub p {
+    text-align: right;
+    height: 1px;
+    width: auto;
+    margin-left: 22px;
+    margin-top: 10px;
+}
+
 .custom-button {
-    background: none; /* กำหนดให้พื้นหลังเป็น none หมายความว่าไม่มีพื้นหลัง */
-    border: none; /* กำหนดให้ไม่มีเส้นขอบ */
-    padding: 0; /* กำหนดให้ไม่มีการเพิ่มขอบของปุ่ม */
+    background: none;
+    /* กำหนดให้พื้นหลังเป็น none หมายความว่าไม่มีพื้นหลัง */
+    border: none;
+    /* กำหนดให้ไม่มีเส้นขอบ */
+    padding: 0;
+    /* กำหนดให้ไม่มีการเพิ่มขอบของปุ่ม */
     cursor: pointer;
-    outline: none; /* กำหนดให้ไม่แสดงเส้นขอบตอนโฟกัส */
-    color: #b511df; /* กำหนดสีตัวอักษร */
+    outline: none;
+    /* กำหนดให้ไม่แสดงเส้นขอบตอนโฟกัส */
+    color: #b511df;
+    /* กำหนดสีตัวอักษร */
     font-size: 16px;
-  }
+}

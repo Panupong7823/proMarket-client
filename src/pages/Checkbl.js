@@ -76,10 +76,11 @@ export default function Checkbl() {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="right">Balance ID</TableCell>
-                    <TableCell align="right">revenue ID</TableCell>
                     <TableCell align="right">customer ID</TableCell>
-                    <TableCell align="right">total</TableCell>
+                    <TableCell align="right">Date_time</TableCell>
+                    <TableCell align="right">Stale</TableCell>
+                    <TableCell align="right">Payout</TableCell>
+                    <TableCell align="right">Total</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -88,9 +89,10 @@ export default function Checkbl() {
                       key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell align="right">{row.ba_id}</TableCell>
-                      <TableCell align="right">{row.re_id}</TableCell>
                       <TableCell align="right">{row.cs_id}</TableCell>
+                      <TableCell align="right">{row.date_time}</TableCell>
+                      <TableCell align="right">{row.stale}</TableCell>
+                      <TableCell align="right">{row.payout}</TableCell>
                       <TableCell align="right">{row.total}</TableCell>
                       <TableCell align="center">
                       </TableCell>

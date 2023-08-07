@@ -21,15 +21,14 @@ function NavC({decodedData}) {
     <div>
       <nav className='Sub'>
         <h4>Subsomboon Supermarket</h4>
-        <body>{decoded?.firstname}</body>
-        <p>{decoded?.lastname}</p>
+        <p>{decoded?.firstname} {decoded?.lastname}</p>
       </nav>
       <nav>
         <button className="custom-button" onClick={handleNavigate}>
           <LogoutIcon />
         </button>
         <h2> ทรัพย์สมบูรณ์ซุปเปอร์มาเก็ต</h2>
-
+        <a href='/h'>หน้าหลัก</a>
         <a href='/cb'>ข้อมูลค้างชำระ</a>
         <a href='/o'>ข้อมูลส่วนตัว</a>
       </nav>

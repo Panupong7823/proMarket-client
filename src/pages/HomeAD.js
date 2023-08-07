@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import NavC from '../components/NavC';
+import Nav from '../components/Nav';
 import ConU from '../components/ConU';
 import { Paper, Typography } from '@mui/material';
 import './Home.css';
 
-function Home() {
+function HomeAD() {
   const [decodedData, setDecodedData] = useState(null);
 
   useEffect(() => {
@@ -35,7 +35,12 @@ function Home() {
 
   return (
     <>
-      <NavC decodedData={decodedData}/>
+      <Nav decodedData={decodedData}/>
+      {decodedData && (
+        <div>
+          <p className="Uname">{decodedData.firstname} {decodedData.lastname}</p>
+        </div>
+      )}
       <div>
         <h1>ประกาศ</h1>
         <Paper className="pp_noti" elevation={0} sx={{ bgcolor: ' #f9e1fe' }}>
@@ -48,4 +53,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomeAD;

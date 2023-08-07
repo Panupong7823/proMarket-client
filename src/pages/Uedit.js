@@ -7,7 +7,7 @@ import { Button, Grid, TextField, Typography } from '@mui/material';
 
 export default function Uedit() {
     const { id } = useParams();
-
+    const [cs_id, setCustomerID] = useState('');
     const [firstname, setFname] = useState('');
     const [lastname, setLname] = useState('');
     const [username, setUsername] = useState('');
@@ -25,10 +25,11 @@ export default function Uedit() {
                 .then(response => response.json())
                 .then(result => {
                     console.log(result)
+                    setCustomerID(result?.cs_id)
                     setFname(result?.firstname)
                     setLname(result?.lastname)
                     setUsername(result?.username)
-                    setPassword(result?.password)
+                    // setPassword(result?.password)
                     setCareer(result?.career)
                     setTel(result?.tel)
                 }
@@ -50,6 +51,7 @@ export default function Uedit() {
 
         var raw = JSON.stringify({
             "id": id,
+            "cs_id": cs_id,
             "username": username,
             "password": password,
             "firstname": firstname,
@@ -86,6 +88,11 @@ export default function Uedit() {
                     </Typography>
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
+                            <Grid item xs={12} >
+                                <TextField id="cs_id" label="Customer ID" variant="outlined" fullWidth required
+                                    onChange={(e) => setCustomerID(e.target.value)}
+                                    value={cs_id} />
+                            </Grid>
                             <Grid item xs={12} >
                                 <TextField id="firstname" label="Firstname" variant="outlined" fullWidth required
                                     onChange={(e) => setFname(e.target.value)}

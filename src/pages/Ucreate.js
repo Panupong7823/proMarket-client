@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import NavC from '../components/NavC';
+import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
 export default function Ucreate() {
@@ -49,7 +49,7 @@ export default function Ucreate() {
     }
     return (
         <>
-            <NavC />
+            <Nav />
             <React.Fragment>
                 <CssBaseline />
                 <Container maxWidth="sm" sx={{ p: 2 }}>

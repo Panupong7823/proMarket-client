@@ -23,7 +23,7 @@ export default function Checkbl() {
     const decodedData = JSON.parse(localStorage.getItem('decodedData'));
     const userId = decodedData?.user_id
     // เรียก API ดึงข้อมูลตารางจากฐานข้อมูล
-    fetch(`http://localhost:3001/datatotalt/${userId}`, {
+    fetch(`http://localhost:3001/datauser/${userId}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
@@ -39,7 +39,7 @@ export default function Checkbl() {
     const decodedData = JSON.parse(localStorage.getItem('decodedData'));
     const userId = decodedData?.user_id
     // เรียก API ดึงข้อมูลตารางจากฐานข้อมูล
-    fetch(`http://localhost:3001/datatotalt/${userId}`, {
+    fetch(`http://localhost:3001/datauser/${userId}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
@@ -72,10 +72,11 @@ export default function Checkbl() {
                 <TableHead>
                   <TableRow>
                     <TableCell align="right">customer ID</TableCell>
-                    <TableCell align="right">Date_time</TableCell>
-                    <TableCell align="right">Stale</TableCell>
-                    <TableCell align="right">Payout</TableCell>
-                    <TableCell align="right">Total</TableCell>
+                    <TableCell align="right">FirstName</TableCell>
+                    <TableCell align="right">lastname</TableCell>
+                    <TableCell align="right">Username</TableCell>
+                    <TableCell align="right">Career</TableCell>
+                    <TableCell align="right">Tel</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -85,10 +86,11 @@ export default function Checkbl() {
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell align="right">{row.cs_id}</TableCell>
-                      <TableCell align="right">{row.date_time}</TableCell>
-                      <TableCell align="right">{row.stale}</TableCell>
-                      <TableCell align="right">{row.payout}</TableCell>
-                      <TableCell align="right">{row.total}</TableCell>
+                      <TableCell align="right">{row.firstname}</TableCell>
+                      <TableCell align="right">{row.lastname}</TableCell>
+                      <TableCell align="right">{row.username}</TableCell>
+                      <TableCell align="right">{row.career}</TableCell>
+                      <TableCell align="right">{row.tel}</TableCell>
                       <TableCell align="center">
                       </TableCell>
                     </TableRow>

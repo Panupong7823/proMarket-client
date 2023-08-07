@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import NavC from '../components/NavC';
+import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
 export default function Uedit() {
@@ -79,7 +79,7 @@ export default function Uedit() {
     }
     return (
         <>
-            <NavC />
+            <Nav />
             <React.Fragment>
                 <CssBaseline />
                 <Container maxWidth="sm" sx={{ p: 2 }}>

@@ -11,6 +11,7 @@ import Uedit from './pages/Uedit';
 import Checkbl from './pages/Checkbl';
 import HomeAD from './pages/HomeAD';
 import InfoBalance from './pages/InfoBalance';
+import CheckUser from './pages/CheckUser';
 
 
 const router = createBrowserRouter([
@@ -46,6 +47,11 @@ const router = createBrowserRouter([
   {
     path: "/cb",
     element: <Checkbl />
+  }
+  ,
+  {
+    path: "/cs",
+    element: <CheckUser />
   }
 ])
 

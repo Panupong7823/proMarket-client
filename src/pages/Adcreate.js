@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
-export default function Uedit() {
-    const { id } = useParams();
+export default function Adcreate() {
+
+    
     const [cs_id, setCustomerID] = useState('');
     const [firstname, setFname] = useState('');
     const [lastname, setLname] = useState('');
@@ -14,38 +14,6 @@ export default function Uedit() {
     const [password, setPassword] = useState('');
     const [career, setCareer] = useState('');
     const [tel, setTel] = useState('');
-    const [salary, setSalary] = useState('');
-
-
-    useEffect(() => {
-        try {
-            var requestOptions = {
-                method: 'GET',
-                redirect: 'follow'
-            };
-            fetch("http://localhost:3001/data/" + id, requestOptions)
-                .then(response => response.json())
-                .then(result => {
-                    console.log(result)
-                    setCustomerID(result?.cs_id)
-                    setFname(result?.firstname)
-                    setLname(result?.lastname)
-                    setUsername(result?.username)
-                    setPassword(result?.password)
-                    setCareer(result?.career)
-                    setTel(result?.tel)
-                    setSalary(result?.salary)
-                }
-                )
-                .catch(error => console.log('error', error));
-        }
-        catch (err) {
-            alert(`${err}`)
-        }
-
-        // .catch(error => console.log('error', error));
-    }, [id]);
-
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -53,7 +21,6 @@ export default function Uedit() {
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
-            "id": id,
             "cs_id": cs_id,
             "username": username,
             "password": password,
@@ -61,21 +28,20 @@ export default function Uedit() {
             "lastname": lastname,
             "career": career,
             "tel": tel,
-            "salary": salary
         });
 
         var requestOptions = {
-            method: 'PUT',
+            method: 'POST',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
 
-        fetch("http://localhost:3001/update/" + id, requestOptions)
+        fetch("http://localhost:3001/regisAd", requestOptions)
             .then(response => response.json())
             .then(result => {
                 alert('Success')
-                if (result['status'] === 'ok') {
+                if(result['status'] === 'ok'){
                     window.location.href = '/o'
                 }
             })
@@ -113,18 +79,10 @@ export default function Uedit() {
                                     value={username} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    id="password"
-                                    label="รหัสผ่าน"
-                                    variant="outlined"
-                                    fullWidth
-                                    type="password"
+                                <TextField id="password" label="Password" variant="outlined" fullWidth required
                                     onChange={(e) => setPassword(e.target.value)}
-                                    value={password} // ไม่ต้องใช้ค่าจาก state นี้ใน request
-                                />
+                                    value={password} />
                             </Grid>
-
-
                             <Grid item xs={12} sm={6}>
                                 <TextField id="career" label="Career" variant="outlined" fullWidth required
                                     onChange={(e) => setCareer(e.target.value)}
@@ -134,11 +92,6 @@ export default function Uedit() {
                                 <TextField id="tel" label="Telephone" variant="outlined" fullWidth required
                                     onChange={(e) => setTel(e.target.value)}
                                     value={tel} />
-                            </Grid>
-                            <Grid item xs={12} >
-                                <TextField id="salary" label="Salary" variant="outlined" fullWidth required
-                                    onChange={(e) => setSalary(e.target.value)}
-                                    value={salary} />
                             </Grid>
                             <Grid item xs={12} >
                                 <Button type='submit' variant="contained" fullWidth>Edit</Button>

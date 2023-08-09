@@ -10,9 +10,10 @@ import Ucreate from './pages/Ucreate';
 import Uedit from './pages/Uedit';
 import Checkbl from './pages/Checkbl';
 import HomeAD from './pages/HomeAD';
-import InfoBalance from './pages/InfoBalance';
 import CheckUser from './pages/CheckUser';
-
+import InfoBls from './pages/InfoBls';
+import Bedit from './pages/Bedit';
+import Adcreate from './pages/Adcreate';
 
 const router = createBrowserRouter([
   {
@@ -33,15 +34,24 @@ const router = createBrowserRouter([
   },
   {
     path: "/iBl",
-    element: <InfoBalance />
+    element: <InfoBls />
   },
   {
     path: "/uc",
     element: <Ucreate />
   },
   {
+    path: "/ac",
+    element: <Adcreate />
+  },
+  {
     path: "/update/:id",
     element: <Uedit />
+  }
+  ,
+  {
+    path: "/updateBdit/:id",
+    element: <Bedit />
   }
   ,
   {

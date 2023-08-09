@@ -36,11 +36,6 @@ function HomeAD() {
   return (
     <>
       <Nav decodedData={decodedData}/>
-      {decodedData && (
-        <div>
-          <p className="Uname">{decodedData.firstname} {decodedData.lastname}</p>
-        </div>
-      )}
       <div>
         <h1>ประกาศ</h1>
         <Paper className="pp_noti" elevation={0} sx={{ bgcolor: ' #f9e1fe' }}>

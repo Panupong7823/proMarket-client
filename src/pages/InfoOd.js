@@ -13,27 +13,45 @@ import TableRow from '@mui/material/TableRow';
 import Link from '@mui/material/Link';
 
 export default function InfoOd() {
-  const [items, setItems] = useState([]);
+  const [itemsData, setItemsData] = useState([]);
+  const [itemsDataAd, setItemsDataAd] = useState([]);
+  const [datatotalResult, setDatatotalResult] = useState([]);
 
   useEffect(() => {
-    UserGet();
-  }, [])
+    fetchData();
+    fetchDataAd();
+    fetchDataBalances();
+  }, []);
 
-  const UserGet = (e) => {
+  const fetchData = () => {
     fetch("http://localhost:3001/data")
       .then(res => res.json())
-      .then(
-        (result) => {
-          setItems(result);
-        }
-      )
-  }
+      .then(result => {
+        setItemsData(result);
+      });
+  };
+
+  const fetchDataAd = () => {
+    fetch("http://localhost:3001/dataAd")
+      .then(res => res.json())
+      .then(result => {
+        setItemsDataAd(result);
+      });
+  };
+
+  const fetchDataBalances = () => {
+    fetch("http://localhost:3001/databalances")
+      .then(res => res.json())
+      .then(result => {
+        setDatatotalResult(result.datatotalResult);
+      });
+  };
 
   const Useredit = id =>{
     window.location = '/update/' + id 
   }
 
-  const Userdel = id => {
+  const Userdel = (id, isAd) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -52,11 +70,15 @@ export default function InfoOd() {
       .then(response => response.json())
       .then(result => {
         alert("Delete Success")
-          UserGet();
+        if (isAd) {
+          fetchDataAd();
+        } else {
+          fetchData();
+        }
+        fetchDataBalances();
       })
       .catch(error => console.log('error', error));
   }
-
 
   return (
     <>
@@ -81,16 +103,75 @@ export default function InfoOd() {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Customer ID</TableCell>
-                    <TableCell align="center">FirstName</TableCell>
-                    <TableCell align="center">LastName</TableCell>
-                    <TableCell align="center">Career</TableCell>
-                    <TableCell align="center">Telephone</TableCell>
+                    <TableCell>รหัสลูกค้า</TableCell>
+                    <TableCell align="center">ชื่อ</TableCell>
+                    <TableCell align="center">นามสกุล</TableCell>
+                    <TableCell align="center">อาชีพ</TableCell>
+                    <TableCell align="center">เบอร์โทรศัพท์</TableCell>
+                    <TableCell align="center">เงินเดือน</TableCell>
+                    <TableCell align="center">ยอดรวม</TableCell>
                     <TableCell align="center">Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {items.map((row) => (
+                  {itemsData.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell align="center">{row.cs_id}</TableCell>
+                      <TableCell align="center">{row.firstname}</TableCell>
+                      <TableCell align="center">{row.lastname}</TableCell>
+                      <TableCell align="center">{row.career}</TableCell>
+                      <TableCell align="center">{row.tel}</TableCell>
+                      <TableCell align="center">{row.salary}</TableCell>
+                      <TableCell align="center">
+                        {datatotalResult.find(totalRow => totalRow.cs_id === row.cs_id)?.total || 0 }
+                      </TableCell>
+                      <TableCell align="center">
+                        <ButtonGroup>
+                          <ButtonGroup variant="outlined" aria-label="outlined button group">
+                            <Button onClick={() => Useredit(row.id)}>Edit</Button>
+                            <Button onClick={() => Userdel(row.id, false)}>Del </Button>
+                          </ButtonGroup>
+                        </ButtonGroup>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Container>
+
+        <Container maxWidth="lg" sx={{ p: 3 }}>
+          <Paper sx={{ p: 3 }}>
+            <Box display="flex">
+              <Box sx={{ flexGrow: 1 }} >
+                <Typography variant="h6" gutterBottom component="div">
+                  Admins
+                </Typography>
+              </Box>
+              <Box style={{ marginBottom: '20px' }}>
+                <Link href="ac">
+                  <Button variant="contained">Create</Button>
+                </Link>
+              </Box>
+            </Box>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>รหัสลูกค้า</TableCell>
+                    <TableCell align="center">ชื่อ</TableCell>
+                    <TableCell align="center">นามสกุล</TableCell>
+                    <TableCell align="center">อาชีพ</TableCell>
+                    <TableCell align="center">เบอร์โทรศัพท์</TableCell>
+                    <TableCell align="center">Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {itemsDataAd.map((row) => (
                     <TableRow
                       key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -104,7 +185,7 @@ export default function InfoOd() {
                         <ButtonGroup>
                           <ButtonGroup variant="outlined" aria-label="outlined button group">
                             <Button onClick={() => Useredit(row.id)}>Edit</Button>
-                            <Button onClick={() => Userdel(row.id)}>Del </Button>
+                            <Button onClick={() => Userdel(row.id, true)}>Del </Button>
                           </ButtonGroup>
                         </ButtonGroup>
                       </TableCell>

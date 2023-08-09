@@ -14,6 +14,7 @@ export default function Ucreate() {
     const [password, setPassword] = useState('');
     const [career, setCareer] = useState('');
     const [tel, setTel] = useState('');
+    const [salary, setSalary] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -27,7 +28,8 @@ export default function Ucreate() {
             "firstname": firstname,
             "lastname": lastname,
             "career": career,
-            "tel": tel
+            "tel": tel,
+            "salary":salary
         });
 
         var requestOptions = {
@@ -92,6 +94,11 @@ export default function Ucreate() {
                                 <TextField id="tel" label="Telephone" variant="outlined" fullWidth required
                                     onChange={(e) => setTel(e.target.value)}
                                     value={tel} />
+                            </Grid>
+                            <Grid item xs={12} >
+                                <TextField id="salary" label="Salary" variant="outlined" fullWidth required
+                                    onChange={(e) => setSalary(e.target.value)}
+                                    value={salary} />
                             </Grid>
                             <Grid item xs={12} >
                                 <Button type='submit' variant="contained" fullWidth>Edit</Button>

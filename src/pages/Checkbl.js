@@ -3,14 +3,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import NavC from '../components/NavC';
-import { Typography, Paper} from '@mui/material';
+import { Typography, Paper } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
+import ConU from '../components/ConU';
 
 
 export default function Checkbl() {
@@ -19,7 +19,7 @@ export default function Checkbl() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setToken(()=>token)
+    setToken(() => token)
     const decodedData = JSON.parse(localStorage.getItem('decodedData'));
     const userId = decodedData?.user_id
     // เรียก API ดึงข้อมูลตารางจากฐานข้อมูล
@@ -71,11 +71,11 @@ export default function Checkbl() {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="right">customer ID</TableCell>
-                    <TableCell align="right">Date_time</TableCell>
-                    <TableCell align="right">Stale</TableCell>
-                    <TableCell align="right">Payout</TableCell>
-                    <TableCell align="right">Total</TableCell>
+                    <TableCell align="center">รหัสลูกค้า</TableCell>
+                    <TableCell align="center">วันเวลา</TableCell>
+                    <TableCell align="center">ยอดค้าง</TableCell>
+                    <TableCell align="center">ยอดจ่าย</TableCell>
+                    <TableCell align="center">ยอดรวม</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -84,11 +84,11 @@ export default function Checkbl() {
                       key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell align="right">{row.cs_id}</TableCell>
-                      <TableCell align="right">{row.date_time}</TableCell>
-                      <TableCell align="right">{row.stale}</TableCell>
-                      <TableCell align="right">{row.payout}</TableCell>
-                      <TableCell align="right">{row.total}</TableCell>
+                      <TableCell align="center">{row.cs_id}</TableCell>
+                      <TableCell align="center">{row.date_time}</TableCell>
+                      <TableCell align="center">{row.stale}</TableCell>
+                      <TableCell align="center">{row.payout}</TableCell>
+                      <TableCell align="center">{row.total}</TableCell>
                       <TableCell align="center">
                       </TableCell>
                     </TableRow>
@@ -99,6 +99,7 @@ export default function Checkbl() {
           </Paper>
         </Container>
       </React.Fragment>
+      <ConU />
     </>
   );
 }

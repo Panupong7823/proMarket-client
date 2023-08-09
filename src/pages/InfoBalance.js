@@ -48,11 +48,11 @@ export default function InfoBalance() {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">Customer ID</TableCell>
-                    <TableCell align="center">Date-Time</TableCell>
-                    <TableCell align="center">Stale</TableCell>
-                    <TableCell align="center">Payout</TableCell>
-                    <TableCell align="center">Total</TableCell>
+                    <TableCell align="center">รหัสลูกค้า</TableCell>
+                    <TableCell align="center">วันเวลา</TableCell>
+                    <TableCell align="center">ยอดค้าง</TableCell>
+                    <TableCell align="center">ยอดจ่าย</TableCell>
+                    <TableCell align="center">ยอดรวม</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

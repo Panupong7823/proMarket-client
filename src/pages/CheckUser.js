@@ -10,7 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
+import ConU from '../components/ConU';
 
 
 export default function Checkbl() {
@@ -71,12 +71,13 @@ export default function Checkbl() {
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="right">customer ID</TableCell>
-                    <TableCell align="right">FirstName</TableCell>
-                    <TableCell align="right">lastname</TableCell>
-                    <TableCell align="right">Username</TableCell>
-                    <TableCell align="right">Career</TableCell>
-                    <TableCell align="right">Tel</TableCell>
+                    <TableCell align="center">รหัสลูกค้า</TableCell>
+                    <TableCell align="center">ชื่อ</TableCell>
+                    <TableCell align="center">นามสกุล</TableCell>
+                    <TableCell align="center">อาชีพ</TableCell>
+                    <TableCell align="center">เบอร์โทรศัพท์</TableCell>
+                    <TableCell align="center">เงินเดือน</TableCell>
+                   
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -85,12 +86,12 @@ export default function Checkbl() {
                       key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell align="right">{row.cs_id}</TableCell>
-                      <TableCell align="right">{row.firstname}</TableCell>
-                      <TableCell align="right">{row.lastname}</TableCell>
-                      <TableCell align="right">{row.username}</TableCell>
-                      <TableCell align="right">{row.career}</TableCell>
-                      <TableCell align="right">{row.tel}</TableCell>
+                      <TableCell align="center">{row.cs_id}</TableCell>
+                      <TableCell align="center">{row.firstname}</TableCell>
+                      <TableCell align="center">{row.lastname}</TableCell>
+                      <TableCell align="center">{row.career}</TableCell>
+                      <TableCell align="center">{row.tel}</TableCell>
+                      <TableCell align="center">{row.salary}</TableCell>
                       <TableCell align="center">
                       </TableCell>
                     </TableRow>
@@ -101,6 +102,7 @@ export default function Checkbl() {
           </Paper>
         </Container>
       </React.Fragment>
+      <ConU />
     </>
   );
 }

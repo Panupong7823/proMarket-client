@@ -9,7 +9,8 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Button, Paper, ButtonGroup } from '@mui/material';
+import { Button, Paper, ButtonGroup, Typography } from '@mui/material';
+import Link from '@mui/material/Link';
 
 export default function InfoBalance() {
   const [databalanceResult, setDatabalanceResult] = useState([]);
@@ -62,10 +63,18 @@ export default function InfoBalance() {
       <CssBaseline />
       <Container maxWidth="lg" sx={{ p: 3 }}>
         <Paper sx={{ p: 3 }}>
-          <Box display="flex">
-            <Box sx={{ flexGrow: 1 }} >
+        <Box display="flex">
+              <Box sx={{ flexGrow: 1 }} >
+                <Typography variant="h6" gutterBottom component="div">
+                  Balance
+                </Typography>
+              </Box>
+              <Box style={{ marginBottom: '20px' }}>
+                <Link href="bc">
+                  <Button variant="contained">Create</Button>
+                </Link>
+              </Box>
             </Box>
-          </Box>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>

@@ -15,11 +15,13 @@ import Link from '@mui/material/Link';
 export default function InfoOd() {
   const [itemsData, setItemsData] = useState([]);
   const [itemsDataAd, setItemsDataAd] = useState([]);
+  const [itemsDataOw, setItemsDataOw] = useState([]);
   const [datatotalResult, setDatatotalResult] = useState([]);
 
   useEffect(() => {
     fetchData();
     fetchDataAd();
+    fetchDataOw();
     fetchDataBalances();
   }, []);
 
@@ -36,6 +38,13 @@ export default function InfoOd() {
       .then(res => res.json())
       .then(result => {
         setItemsDataAd(result);
+      });
+  };
+  const fetchDataOw = () => {
+    fetch("http://localhost:3001/dataOw")
+      .then(res => res.json())
+      .then(result => {
+        setItemsDataOw(result);
       });
   };
 
@@ -72,8 +81,10 @@ export default function InfoOd() {
         alert("Delete Success")
         if (isAd) {
           fetchDataAd();
-        } else {
+        } else if(isAd) {
           fetchData();
+        } else {
+          fetchDataOw();
         }
         fetchDataBalances();
       })
@@ -172,6 +183,59 @@ export default function InfoOd() {
                 </TableHead>
                 <TableBody>
                   {itemsDataAd.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell align="center">{row.cs_id}</TableCell>
+                      <TableCell align="center">{row.firstname}</TableCell>
+                      <TableCell align="center">{row.lastname}</TableCell>
+                      <TableCell align="center">{row.career}</TableCell>
+                      <TableCell align="center">{row.tel}</TableCell>
+                      <TableCell align="center">
+                        <ButtonGroup>
+                          <ButtonGroup variant="outlined" aria-label="outlined button group">
+                            <Button onClick={() => Useredit(row.id)}>Edit</Button>
+                            <Button onClick={() => Userdel(row.id, true)}>Del </Button>
+                          </ButtonGroup>
+                        </ButtonGroup>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Container>
+
+        <Container maxWidth="lg" sx={{ p: 3 }}>
+          <Paper sx={{ p: 3 }}>
+            <Box display="flex">
+              <Box sx={{ flexGrow: 1 }} >
+                <Typography variant="h6" gutterBottom component="div">
+                  Owners
+                </Typography>
+              </Box>
+              <Box style={{ marginBottom: '20px' }}>
+                <Link href="ac">
+                  <Button variant="contained">Create</Button>
+                </Link>
+              </Box>
+            </Box>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>รหัสลูกค้า</TableCell>
+                    <TableCell align="center">ชื่อ</TableCell>
+                    <TableCell align="center">นามสกุล</TableCell>
+                    <TableCell align="center">อาชีพ</TableCell>
+                    <TableCell align="center">เบอร์โทรศัพท์</TableCell>
+                    <TableCell align="center">Action</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {itemsDataOw.map((row) => (
                     <TableRow
                       key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

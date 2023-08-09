@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import LogIn from './pages/LogIn';
 import Home from './pages/Home';
 import InfoOd from './pages/InfoOd';
@@ -14,6 +15,25 @@ import CheckUser from './pages/CheckUser';
 import InfoBls from './pages/InfoBls';
 import Bedit from './pages/Bedit';
 import Adcreate from './pages/Adcreate';
+import Bcreate from './pages/BCreate';
+
+
+
+const theme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#c26ccb',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+    info: {
+      main: '#d088de',
+    },
+  },
+})
+
 
 const router = createBrowserRouter([
   {
@@ -42,7 +62,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/ac",
-    element: <Adcreate />
+    element: <Adcreate/>
+  },
+  {
+    path: "/bc",
+    element: <Bcreate />
   },
   {
     path: "/update/:id",
@@ -71,7 +95,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <ThemeProvider theme={theme}>
     <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );
 

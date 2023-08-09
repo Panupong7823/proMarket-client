@@ -55,6 +55,9 @@ export default function SignIn() {
   // หากล็อกอินสำเร็จให้เปลี่ยนหน้าไปยังหน้าที่กำหนดตามสิทธิ์ของผู้ใช้
   if (loginSuccess) {
     switch (userRole) {
+      case 1:
+        navigate('/hAd'); 
+        break;
       case 2:
         navigate('/hAd'); 
         break;
@@ -133,11 +136,13 @@ export default function SignIn() {
 
 
 function renderPageBasedOnUserRole(userRole) {
-  if (userRole === 2) { 
+  if (userRole === 1) { 
+    return 
+  } else if (userRole === 2) { 
     return 
   } else if (userRole === 3) { 
-    return <div>customer page</div>
-  } else {
+    return 
+  }else {
     return <div>not found</div>;
   }
 }

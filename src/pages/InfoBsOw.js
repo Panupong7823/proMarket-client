@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Nav from '../components/Nav';
+import NavOw from '../components/NavOw';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,9 +12,8 @@ import TableRow from '@mui/material/TableRow';
 import { Button, Paper, ButtonGroup, Typography } from '@mui/material';
 import Link from '@mui/material/Link';
 
-export default function InfoBls() {
+export default function InfoBsOw() {
   const [databalanceResult, setDatabalanceResult] = useState([]);
-
   const [decodedData, setDecodedData] = useState(null);
 
   useEffect(() => {
@@ -50,7 +49,7 @@ export default function InfoBls() {
   }, []);
 
   useEffect(() => {
-    if (decodedData && decodedData.role !== 2) {
+    if (decodedData && decodedData.role !== 1) {
       window.location.href = '/'; 
     }
   }, [decodedData]);
@@ -100,7 +99,7 @@ export default function InfoBls() {
 
   return (
     <>
-      <Nav />
+      <NavOw />
       <CssBaseline />
       <Container maxWidth="lg" sx={{ p: 3 }}>
         <Paper sx={{ p: 3 }}>

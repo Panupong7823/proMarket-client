@@ -56,13 +56,13 @@ export default function SignIn() {
   if (loginSuccess) {
     switch (userRole) {
       case 1:
-        navigate('/hAd'); 
+        navigate('/homeOw'); 
         break;
       case 2:
-        navigate('/hAd'); 
+        navigate('/homeAd'); 
         break;
       case 3:
-        navigate('/h'); 
+        navigate('/homeCs'); 
         break;
       default:
         break;

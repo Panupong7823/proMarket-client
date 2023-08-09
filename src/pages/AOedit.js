@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
-export default function Uedit() {
+export default function AOdit() {
     const { id } = useParams();
     const [cs_id, setCustomerID] = useState('');
     const [firstname, setFname] = useState('');
@@ -14,7 +14,7 @@ export default function Uedit() {
     const [password, setPassword] = useState('');
     const [career, setCareer] = useState('');
     const [tel, setTel] = useState('');
-    const [salary, setSalary] = useState('');
+    // const [salary, setSalary] = useState('');
 
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export default function Uedit() {
                     setPassword(result?.password)
                     setCareer(result?.career)
                     setTel(result?.tel)
-                    setSalary(result?.salary)
+                    // setSalary(result?.salary)
                 }
                 )
                 .catch(error => console.log('error', error));
@@ -61,7 +61,7 @@ export default function Uedit() {
             "lastname": lastname,
             "career": career,
             "tel": tel,
-            "salary": salary
+            // "salary": salary
         });
 
         var requestOptions = {
@@ -88,7 +88,7 @@ export default function Uedit() {
                 <CssBaseline />
                 <Container maxWidth="sm" sx={{ p: 2 }}>
                     <Typography variant="h6" gutterBottom component="div">
-                        Edit User
+                        Create User
                     </Typography>
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
@@ -135,11 +135,11 @@ export default function Uedit() {
                                     onChange={(e) => setTel(e.target.value)}
                                     value={tel} />
                             </Grid>
-                            <Grid item xs={12} >
+                            {/* <Grid item xs={12} >
                                 <TextField id="salary" label="Salary" variant="outlined" fullWidth required
                                     onChange={(e) => setSalary(e.target.value)}
                                     value={salary} />
-                            </Grid>
+                            </Grid> */}
                             <Grid item xs={12} >
                                 <Button type='submit' variant="contained" fullWidth>แก้ไข</Button>
                             </Grid>

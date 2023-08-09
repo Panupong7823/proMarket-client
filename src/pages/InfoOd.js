@@ -12,12 +12,57 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Link from '@mui/material/Link';
 
+
+
 export default function InfoOd() {
   const [itemsData, setItemsData] = useState([]);
   const [itemsDataAd, setItemsDataAd] = useState([]);
   const [itemsDataOw, setItemsDataOw] = useState([]);
   const [datatotalResult, setDatatotalResult] = useState([]);
 
+  const [decodedData, setDecodedData] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/';
+      return;
+    }
+    fetch('http://localhost:3001/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 'ok') {
+          // ดึงข้อมูลใน decoded token
+          setDecodedData(() => {
+            localStorage.setItem('decodedData', JSON.stringify(data.decoded));
+            return data.decoded
+          });
+        } else {
+          alert('failed');
+          localStorage.removeItem(token)
+          window.location.href = '/';
+        }
+      })
+      .catch((error) => {
+        console.log('Error', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (decodedData && decodedData.role !== 2) {
+      window.location.href = '/'; 
+    }
+  }, [decodedData]);
+  
+
+  
+  
   useEffect(() => {
     fetchData();
     fetchDataAd();
@@ -56,8 +101,11 @@ export default function InfoOd() {
       });
   };
 
-  const Useredit = id =>{
-    window.location = '/update/' + id 
+  const Useredit = id => {
+    window.location = '/update/' + id
+  }
+  const AdOwedit = id => {
+    window.location = '/updateAdOw/' + id
   }
 
   const Userdel = (id, isAd) => {
@@ -81,7 +129,7 @@ export default function InfoOd() {
         alert("Delete Success")
         if (isAd) {
           fetchDataAd();
-        } else if(isAd) {
+        } else if (isAd) {
           fetchData();
         } else {
           fetchDataOw();
@@ -106,7 +154,7 @@ export default function InfoOd() {
               </Box>
               <Box style={{ marginBottom: '20px' }}>
                 <Link href="uc">
-                  <Button variant="contained">Create</Button>
+                  <Button variant="contained">สร้าง</Button>
                 </Link>
               </Box>
             </Box>
@@ -121,7 +169,7 @@ export default function InfoOd() {
                     <TableCell align="center">เบอร์โทรศัพท์</TableCell>
                     <TableCell align="center">เงินเดือน</TableCell>
                     <TableCell align="center">ยอดรวม</TableCell>
-                    <TableCell align="center">Action</TableCell>
+                    <TableCell align="center">ดำเนินการ</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -135,15 +183,15 @@ export default function InfoOd() {
                       <TableCell align="center">{row.lastname}</TableCell>
                       <TableCell align="center">{row.career}</TableCell>
                       <TableCell align="center">{row.tel}</TableCell>
-                      <TableCell align="center">{row.salary}</TableCell>
+                      <TableCell align="center">{row.salary.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
                       <TableCell align="center">
-                        {datatotalResult.find(totalRow => totalRow.cs_id === row.cs_id)?.total || 0 }
+                        {datatotalResult.find(totalRow => totalRow.cs_id === row.cs_id)?.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || 0}
                       </TableCell>
                       <TableCell align="center">
                         <ButtonGroup>
                           <ButtonGroup variant="outlined" aria-label="outlined button group">
-                            <Button onClick={() => Useredit(row.id)}>Edit</Button>
-                            <Button onClick={() => Userdel(row.id, false)}>Del </Button>
+                            <Button onClick={() => Useredit(row.id)}>แก้ไข</Button>
+                            <Button onClick={() => Userdel(row.id, false)}> ลบ </Button>
                           </ButtonGroup>
                         </ButtonGroup>
                       </TableCell>
@@ -165,7 +213,7 @@ export default function InfoOd() {
               </Box>
               <Box style={{ marginBottom: '20px' }}>
                 <Link href="ac">
-                  <Button variant="contained">Create</Button>
+                  <Button variant="contained">สร้าง</Button>
                 </Link>
               </Box>
             </Box>
@@ -178,7 +226,7 @@ export default function InfoOd() {
                     <TableCell align="center">นามสกุล</TableCell>
                     <TableCell align="center">อาชีพ</TableCell>
                     <TableCell align="center">เบอร์โทรศัพท์</TableCell>
-                    <TableCell align="center">Action</TableCell>
+                    <TableCell align="center">ดำเนินการ</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -195,8 +243,8 @@ export default function InfoOd() {
                       <TableCell align="center">
                         <ButtonGroup>
                           <ButtonGroup variant="outlined" aria-label="outlined button group">
-                            <Button onClick={() => Useredit(row.id)}>Edit</Button>
-                            <Button onClick={() => Userdel(row.id, true)}>Del </Button>
+                            <Button onClick={() => AdOwedit(row.id)}>แก้ไข</Button>
+                            <Button onClick={() => Userdel(row.id, true)}> ลบ </Button>
                           </ButtonGroup>
                         </ButtonGroup>
                       </TableCell>
@@ -218,7 +266,7 @@ export default function InfoOd() {
               </Box>
               <Box style={{ marginBottom: '20px' }}>
                 <Link href="ac">
-                  <Button variant="contained">Create</Button>
+                  <Button variant="contained">สร้าง</Button>
                 </Link>
               </Box>
             </Box>
@@ -231,7 +279,7 @@ export default function InfoOd() {
                     <TableCell align="center">นามสกุล</TableCell>
                     <TableCell align="center">อาชีพ</TableCell>
                     <TableCell align="center">เบอร์โทรศัพท์</TableCell>
-                    <TableCell align="center">Action</TableCell>
+                    <TableCell align="center">ดำเนินการ</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -248,8 +296,8 @@ export default function InfoOd() {
                       <TableCell align="center">
                         <ButtonGroup>
                           <ButtonGroup variant="outlined" aria-label="outlined button group">
-                            <Button onClick={() => Useredit(row.id)}>Edit</Button>
-                            <Button onClick={() => Userdel(row.id, true)}>Del </Button>
+                            <Button onClick={() => AdOwedit(row.id)}>แก้ไข</Button>
+                            <Button onClick={() => Userdel(row.id, true)}>ลบ</Button>
                           </ButtonGroup>
                         </ButtonGroup>
                       </TableCell>

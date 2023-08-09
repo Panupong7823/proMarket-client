@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
@@ -15,10 +15,40 @@ export default function Adcreate() {
     const [career, setCareer] = useState('');
     const [tel, setTel] = useState('');
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          window.location.href = '/';
+          return;
+        }
+        fetch('http://localhost:3001/auth', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === 'ok') {
+             
+            } else {
+              alert('failed');
+              localStorage.removeItem(token)
+              window.location.href = '/';
+            }
+          })
+          .catch((error) => {
+            console.log('Error', error);
+          });
+      }, []);
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        
 
         var raw = JSON.stringify({
             "cs_id": cs_id,
@@ -94,7 +124,7 @@ export default function Adcreate() {
                                     value={tel} />
                             </Grid>
                             <Grid item xs={12} >
-                                <Button type='submit' variant="contained" fullWidth>Edit</Button>
+                                <Button type='submit' variant="contained" fullWidth>แก้ไข</Button>
                             </Grid>
                         </Grid>
                     </form>

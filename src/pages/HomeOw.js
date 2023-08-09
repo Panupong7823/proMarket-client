@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import Nav from '../components/Nav';
+import NavOw from '../components/NavOw';
 import ConU from '../components/ConU';
 import { Paper, Typography } from '@mui/material';
 import './Home.css';
 
-export default function HomeAD(){
-
+export default function HomeOW(){
   const [decodedData, setDecodedData] = useState(null);
 
   useEffect(() => {
@@ -40,9 +39,16 @@ export default function HomeAD(){
       });
   }, []);
 
+  useEffect(() => {
+    if (decodedData && decodedData.role !== 1) {
+      window.location.href = '/'; // เปลี่ยนเส้นทางไปยังหน้าอื่น
+    }
+  }, [decodedData]);
+
+
   return (
     <>
-      <Nav decodedData={decodedData}/>
+      <NavOw decodedData={decodedData}/>
       <div>
         <h1>ประกาศ</h1>
         <Paper className="pp_noti" elevation={0} sx={{ bgcolor: ' #f9e1fe' }}>

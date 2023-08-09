@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
-import { Button, Grid, TextField, Typography } from '@mui/material';
+import { Button, Grid, TextField} from '@mui/material';
 
-export default function Uedit() {
+export default function Bedit() {
     const { id } = useParams();
     const [cs_id, setCustomerID] = useState('');
     const [date_time, setDateTime] = useState('');
@@ -48,7 +48,6 @@ export default function Uedit() {
             "cs_id": cs_id,
             "date_time": date_time,
             "amount": amount,
-            
         });
 
         var requestOptions = {
@@ -110,7 +109,7 @@ export default function Uedit() {
                                 />
                             </Grid>
                             <Grid item xs={12} >
-                                <Button type='submit' variant="contained" fullWidth>Edit</Button>
+                                <Button type='submit' variant="contained" fullWidth>แก้ไข</Button>
                             </Grid>
                         </Grid>
                     </form>

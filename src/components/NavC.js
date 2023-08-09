@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-function NavC({decodedData}) {
+export default function NavC({decodedData}) {
   const navigate = useNavigate();
   const [decoded, setDecoded] = useState(null)
 
@@ -28,7 +28,7 @@ function NavC({decodedData}) {
           <LogoutIcon />
         </button>
         <h2> ทรัพย์สมบูรณ์ซุปเปอร์มาเก็ต</h2>
-        <a href='/h'>หน้าหลัก</a>
+        <a href='/homeCs'>หน้าหลัก</a>
         <a href='/cb'>ข้อมูลค้างชำระ</a>
         <a href='/cs'>ข้อมูลส่วนตัว</a>
       </nav>
@@ -36,4 +36,3 @@ function NavC({decodedData}) {
   )
 }
 
-export default NavC

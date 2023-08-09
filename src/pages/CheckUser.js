@@ -3,7 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import NavC from '../components/NavC';
-import { Typography, Paper} from '@mui/material';
+import { Typography, Paper } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,33 +12,16 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ConU from '../components/ConU';
 
-
 export default function Checkbl() {
   const [data, setData] = useState([]);
   const [token, setToken] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    setToken(()=>token)
+    setToken(() => token);
     const decodedData = JSON.parse(localStorage.getItem('decodedData'));
-    const userId = decodedData?.user_id
-    // เรียก API ดึงข้อมูลตารางจากฐานข้อมูล
-    fetch(`http://localhost:3001/datauser/${userId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
-      .then(response => response.json())
-      .then(data => setData(data))
-      .catch(error => console.error('Error:', error));
-  }, []);
+    const userId = decodedData?.user_id;
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const decodedData = JSON.parse(localStorage.getItem('decodedData'));
-    const userId = decodedData?.user_id
-    // เรียก API ดึงข้อมูลตารางจากฐานข้อมูล
     fetch(`http://localhost:3001/datauser/${userId}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -46,12 +29,21 @@ export default function Checkbl() {
       },
     })
       .then(response => response.json())
-      .then(data => setData(data))
+      .then(data => {
+        setData(prevData => ({ ...prevData, datauser: data }));
+      })
+      .catch(error => console.error('Error:', error));
+
+    fetch(`http://localhost:3001/datatotaltl/${userId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    })
+      .then(response => response.json())
+      .then(datatlData => setData(prevData => ({ ...prevData, datatl: datatlData.datatl })))
       .catch(error => console.error('Error:', error));
   }, [token]);
-
-
-
 
   return (
     <>
@@ -77,25 +69,29 @@ export default function Checkbl() {
                     <TableCell align="center">อาชีพ</TableCell>
                     <TableCell align="center">เบอร์โทรศัพท์</TableCell>
                     <TableCell align="center">เงินเดือน</TableCell>
-                   
+                    <TableCell align="center">ยอดรวม</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data.map((row) => (
-                    <TableRow
-                      key={row.id}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell align="center">{row.cs_id}</TableCell>
-                      <TableCell align="center">{row.firstname}</TableCell>
-                      <TableCell align="center">{row.lastname}</TableCell>
-                      <TableCell align="center">{row.career}</TableCell>
-                      <TableCell align="center">{row.tel}</TableCell>
-                      <TableCell align="center">{row.salary}</TableCell>
-                      <TableCell align="center">
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {data.datauser && data.datatl && data.datauser.map(row => {
+                    const datatlRow = data.datatl.find(datatlRow => datatlRow.cs_id === row.cs_id);
+                    return (
+                      <TableRow
+                        key={row.id}
+                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                      >
+                        <TableCell align="center">{row.cs_id}</TableCell>
+                        <TableCell align="center">{row.firstname}</TableCell>
+                        <TableCell align="center">{row.lastname}</TableCell>
+                        <TableCell align="center">{row.career}</TableCell>
+                        <TableCell align="center">{row.tel}</TableCell>
+                        <TableCell align="center">{row.salary.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                        <TableCell align="center">
+                          {datatlRow ? datatlRow.total.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </TableContainer>

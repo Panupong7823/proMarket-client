@@ -4,8 +4,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import LogIn from './pages/LogIn';
 import Home from './pages/Home';
+import LogIn from './pages/LogIn';
 import InfoOd from './pages/InfoOd';
 import Ucreate from './pages/Ucreate';
 import Uedit from './pages/Uedit';
@@ -16,6 +16,10 @@ import InfoBls from './pages/InfoBls';
 import Bedit from './pages/Bedit';
 import Adcreate from './pages/Adcreate';
 import Bcreate from './pages/BCreate';
+import AOedit from './pages/AOedit';
+import InfoUserOw from './pages/InfoUserOw';
+import HomeOw from './pages/HomeOw';
+import InfoBsOw from './pages/InfoBsOw';
 
 
 
@@ -41,20 +45,32 @@ const router = createBrowserRouter([
   element: <LogIn />
   },
   {
-    path: "/h",
+    path: "/homeCs",
     element: <Home />
   },
   {
-    path: "/hAd",
+    path: "/homeAd",
     element: <HomeAD />
+  },
+  {
+    path: "/homeOw",
+    element: <HomeOw />
   },
   {
     path: "/o",
     element: <InfoOd />
   },
   {
+    path: "/InfoUserOW",
+    element: <InfoUserOw />
+  },
+  {
     path: "/iBl",
     element: <InfoBls />
+  },
+  {
+    path: "/InfoBsOw",
+    element: <InfoBsOw />
   },
   {
     path: "/uc",
@@ -71,6 +87,10 @@ const router = createBrowserRouter([
   {
     path: "/update/:id",
     element: <Uedit />
+  },
+  {
+    path: "/updateAdOw/:id",
+    element: <AOedit />
   }
   ,
   {

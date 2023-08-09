@@ -32,25 +32,9 @@ export default function Checkbl() {
       .then(response => response.json())
       .then(data => setData(data))
       .catch(error => console.error('Error:', error));
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const decodedData = JSON.parse(localStorage.getItem('decodedData'));
-    const userId = decodedData?.user_id
-    // เรียก API ดึงข้อมูลตารางจากฐานข้อมูล
-    fetch(`http://localhost:3001/datatotalt/${userId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
-      .then(response => response.json())
-      .then(data => setData(data))
-      .catch(error => console.error('Error:', error));
   }, [token]);
 
-
+  
 
 
   return (
@@ -75,24 +59,22 @@ export default function Checkbl() {
                     <TableCell align="center">วันเวลา</TableCell>
                     <TableCell align="center">ยอดค้าง</TableCell>
                     <TableCell align="center">ยอดจ่าย</TableCell>
-                    <TableCell align="center">ยอดรวม</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {data.map((row) => (
+                {data.databl && data.databl.map((row) => (
                     <TableRow
                       key={row.id}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
                       <TableCell align="center">{row.cs_id}</TableCell>
                       <TableCell align="center">{row.date_time}</TableCell>
-                      <TableCell align="center">{row.stale}</TableCell>
-                      <TableCell align="center">{row.payout}</TableCell>
-                      <TableCell align="center">{row.total}</TableCell>
-                      <TableCell align="center">
-                      </TableCell>
+                      <TableCell align="center">{row.status_description === "stale" ? parseInt(row.amount).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}</TableCell>
+                      <TableCell align="center">{row.status_description === "pay" ? parseInt(row.amount).toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ","): 0}</TableCell>
+                      <TableCell align="center"></TableCell>
                     </TableRow>
                   ))}
+
                 </TableBody>
               </Table>
             </TableContainer>

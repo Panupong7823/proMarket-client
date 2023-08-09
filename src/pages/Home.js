@@ -4,11 +4,15 @@ import ConU from '../components/ConU';
 import { Paper, Typography } from '@mui/material';
 import './Home.css';
 
-function Home() {
+export default function Home(){
   const [decodedData, setDecodedData] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/';
+      return;
+    }
     fetch('http://localhost:3001/auth', {
       method: 'POST',
       headers: {
@@ -26,6 +30,8 @@ function Home() {
           });
         } else {
           alert('failed');
+          localStorage.removeItem(token)
+          window.location.href = '/';
         }
       })
       .catch((error) => {
@@ -48,4 +54,3 @@ function Home() {
   );
 }
 
-export default Home;

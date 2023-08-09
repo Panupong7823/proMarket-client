@@ -4,8 +4,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router-dom";
 
 
-
-export default function Nav({decodedData}) {
+export default function NavOw({decodedData}) {
   const navigate = useNavigate();
   const [decoded, setDecoded] = useState(null)
 
@@ -28,9 +27,9 @@ export default function Nav({decodedData}) {
           <LogoutIcon />
         </button>
         <h2> ทรัพย์สมบูรณ์ซุปเปอร์มาเก็ต</h2>
-        <a href='/homeAd'>หน้าหลัก</a>
-        <a href='/iBl'>ข้อมูลค้างชำระ</a>
-        <a href='/o'>ข้อมูลส่วนตัว</a>
+        <a href='/homeOw'>หน้าหลัก</a>
+        <a href='/InfoBsOw'>ข้อมูลค้างชำระ</a>
+        <a href='/InfoUserOw'>ข้อมูลส่วนตัว</a>
       </nav>
     </div>
   )

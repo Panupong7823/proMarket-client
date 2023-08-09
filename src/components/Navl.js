@@ -1,7 +1,7 @@
 import React from 'react'
 import './Nav.css'
 
-function NavH() {
+export default function Navl() {
   return (
     <div>
     <nav className='Sub'> 
@@ -14,4 +14,3 @@ function NavH() {
   )
 }
 
-export default NavH

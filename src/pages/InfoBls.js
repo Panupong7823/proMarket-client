@@ -15,45 +15,6 @@ import Link from '@mui/material/Link';
 export default function InfoBls() {
   const [databalanceResult, setDatabalanceResult] = useState([]);
 
-  const [decodedData, setDecodedData] = useState(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      window.location.href = '/';
-      return;
-    }
-    fetch('http://localhost:3001/auth', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === 'ok') {
-          // ดึงข้อมูลใน decoded token
-          setDecodedData(() => {
-            localStorage.setItem('decodedData', JSON.stringify(data.decoded));
-            return data.decoded
-          });
-        } else {
-          alert('failed');
-          localStorage.removeItem(token)
-          window.location.href = '/';
-        }
-      })
-      .catch((error) => {
-        console.log('Error', error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (decodedData && decodedData.role !== 2) {
-      window.location.href = '/'; 
-    }
-  }, [decodedData]);
 
 
   useEffect(() => {

@@ -20,6 +20,7 @@ import AOedit from './pages/AOedit';
 import InfoUserOw from './pages/InfoUserOw';
 import HomeOw from './pages/HomeOw';
 import InfoBsOw from './pages/InfoBsOw';
+import Owcreate from './pages/Owcreate';
 
 
 
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
   {
     path: "/ac",
     element: <Adcreate/>
+  },
+  {
+    path: "/oc",
+    element: <Owcreate />
   },
   {
     path: "/bc",

@@ -15,7 +15,8 @@ export default function AOdit() {
     const [career, setCareer] = useState('');
     const [tel, setTel] = useState('');
     // const [salary, setSalary] = useState('');
-
+    
+    
 
     useEffect(() => {
         try {

@@ -12,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ConU from '../components/ConU';
 
-export default function Checkbl() {
+export default function CheckUser() {
   const [data, setData] = useState([]);
   const [token, setToken] = useState(null);
 
@@ -69,7 +69,7 @@ export default function Checkbl() {
                     <TableCell align="center">อาชีพ</TableCell>
                     <TableCell align="center">เบอร์โทรศัพท์</TableCell>
                     <TableCell align="center">เงินเดือน</TableCell>
-                    <TableCell align="center">ยอดรวม</TableCell>
+                    <TableCell align="center">ยอดค้างรวม</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>

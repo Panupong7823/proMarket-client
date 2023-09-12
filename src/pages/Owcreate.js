@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
-export default function Ucreate() {
+export default function Owcreate() {
 
     
     const [cs_id, setCustomerID] = useState('');
@@ -14,12 +14,14 @@ export default function Ucreate() {
     const [password, setPassword] = useState('');
     const [career, setCareer] = useState('');
     const [tel, setTel] = useState('');
-    const [salary, setSalary] = useState('');
+
+
 
     const handleSubmit = (event) => {
         event.preventDefault();
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
+        
 
         var raw = JSON.stringify({
             "cs_id": cs_id,
@@ -29,7 +31,6 @@ export default function Ucreate() {
             "lastname": lastname,
             "career": career,
             "tel": tel,
-            "salary":salary
         });
 
         var requestOptions = {
@@ -39,7 +40,7 @@ export default function Ucreate() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:3001/regis", requestOptions)
+        fetch("http://localhost:3001/regisOW", requestOptions)
             .then(response => response.json())
             .then(result => {
                 alert('Success')
@@ -94,11 +95,6 @@ export default function Ucreate() {
                                 <TextField id="tel" label="Telephone" variant="outlined" fullWidth required
                                     onChange={(e) => setTel(e.target.value)}
                                     value={tel} />
-                            </Grid>
-                            <Grid item xs={12} >
-                                <TextField id="salary" label="Salary" variant="outlined" fullWidth required
-                                    onChange={(e) => setSalary(e.target.value)}
-                                    value={salary} />
                             </Grid>
                             <Grid item xs={12} >
                                 <Button type='submit' variant="contained" fullWidth>สร้าง</Button>

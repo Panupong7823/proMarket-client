@@ -10,6 +10,7 @@ export default function Bedit() {
     const [cs_id, setCustomerID] = useState('');
     const [date_time, setDateTime] = useState('');
     const [amount, setAmount] = useState('');
+    
 
     
     useEffect(() => {

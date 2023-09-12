@@ -10,6 +10,7 @@ export default function Bcreate() {
     const [cs_id, setCustomerID] = useState('');
     const [amount, setAmount] = useState('');
     const [status, setStatus] = useState(0);
+    
 
     const handleStatusChange = (e) => {
         const selectedStatus = e.target.value;

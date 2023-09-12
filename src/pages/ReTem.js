@@ -27,7 +27,8 @@ export default function ReTem() {
             headers: {
                 "Content-Type": "application/json",
             }
-        ,})
+            ,
+        })
             .then(response => response.data)
             .then(data => {
                 if (data.status === 'ok') {

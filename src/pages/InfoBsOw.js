@@ -11,49 +11,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { Button, Paper, ButtonGroup, Typography } from '@mui/material';
 import Link from '@mui/material/Link';
+import { format } from 'date-fns';
+import { th } from 'date-fns/locale';
 
 export default function InfoBsOw() {
   const [databalanceResult, setDatabalanceResult] = useState([]);
-  const [decodedData, setDecodedData] = useState(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      window.location.href = '/';
-      return;
-    }
-    fetch('http://localhost:3001/auth', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === 'ok') {
-          // ดึงข้อมูลใน decoded token
-          setDecodedData(() => {
-            localStorage.setItem('decodedData', JSON.stringify(data.decoded));
-            return data.decoded
-          });
-        } else {
-          alert('failed');
-          localStorage.removeItem(token)
-          window.location.href = '/';
-        }
-      })
-      .catch((error) => {
-        console.log('Error', error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (decodedData && decodedData.role !== 1) {
-      window.location.href = '/'; 
-    }
-  }, [decodedData]);
-
+  const [searchQuery, setSearchQuery] = useState('');
+  
 
   useEffect(() => {
     UserGet();
@@ -68,8 +32,8 @@ export default function InfoBsOw() {
   };
 
   const Useredit = id => {
-    window.location = '/updateBdit/' + id
-  }
+    window.location = '/updateBdit/' + id;
+  };
 
   const Balancedel = id => {
     var myHeaders = new Headers();
@@ -77,9 +41,7 @@ export default function InfoBsOw() {
 
     var raw = JSON.stringify({
       "id": id
-
     });
-    console.log(id)
 
     var requestOptions = {
       method: 'DELETE',
@@ -90,12 +52,25 @@ export default function InfoBsOw() {
     fetch("http://localhost:3001/deletebl", requestOptions)
       .then(response => response.json())
       .then(result => {
-        alert("Delete Success")
+        alert("Delete Success");
         UserGet();
       })
       .catch(error => console.log('error', error));
+  };
 
-  }
+  const handleSearchInputChange = event => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredData = databalanceResult.filter(row => {
+    const formattedDateTime = format(new Date(row.date_time), 'dd MMM yyyy HH:mm', { locale: th });
+    
+    return (
+      row.cs_id.includes(searchQuery) ||
+      formattedDateTime.includes(searchQuery)
+    );
+  });
+  
 
   return (
     <>
@@ -104,7 +79,7 @@ export default function InfoBsOw() {
       <Container maxWidth="lg" sx={{ p: 3 }}>
         <Paper sx={{ p: 3 }}>
           <Box display="flex">
-            <Box sx={{ flexGrow: 1 }} >
+            <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
                 Balance
               </Typography>
@@ -114,6 +89,14 @@ export default function InfoBsOw() {
                 <Button variant="contained">สร้าง</Button>
               </Link>
             </Box>
+          </Box>
+          <Box style={{ marginBottom: '20px' }}>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearchInputChange}
+            />
           </Box>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -127,23 +110,30 @@ export default function InfoBsOw() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {databalanceResult.map(row => (
-                  <TableRow key={row.id}
+                {filteredData.map(row => (
+                  <TableRow
+                    key={row.id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
                     <TableCell align="center">{row.cs_id}</TableCell>
-                    <TableCell align="center">{row.date_time}</TableCell>
                     <TableCell align="center">
-                      {row.status_description === "stale" ? row.amount.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0"}
+                      {format(new Date(row.date_time), 'dd MMM yyyy', { locale: th })} {format(new Date(row.date_time), 'HH:mm')}
                     </TableCell>
                     <TableCell align="center">
-                      {row.status_description === "pay" ? row.amount.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0"}
+                      {row.status_description === "stale"
+                        ? row.amount.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        : "0"}
+                    </TableCell>
+                    <TableCell align="center">
+                      {row.status_description === "pay"
+                        ? row.amount.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                        : "0"}
                     </TableCell>
                     <TableCell align="center">
                       <ButtonGroup>
                         <ButtonGroup variant="outlined" aria-label="outlined button group">
                           <Button onClick={() => Useredit(row.id)}>แก้ไข</Button>
-                          <Button onClick={() => Balancedel(row.id)}> ลบ </Button>
+                          <Button onClick={() => Balancedel(row.id)}>ลบ</Button>
                         </ButtonGroup>
                       </ButtonGroup>
                     </TableCell>

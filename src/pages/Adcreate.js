@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
@@ -14,34 +14,6 @@ export default function Adcreate() {
     const [password, setPassword] = useState('');
     const [career, setCareer] = useState('');
     const [tel, setTel] = useState('');
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          window.location.href = '/';
-          return;
-        }
-        fetch('http://localhost:3001/auth', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + token,
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.status === 'ok') {
-             
-            } else {
-              alert('failed');
-              localStorage.removeItem(token)
-              window.location.href = '/';
-            }
-          })
-          .catch((error) => {
-            console.log('Error', error);
-          });
-      }, []);
 
 
     const handleSubmit = (event) => {
@@ -124,7 +96,7 @@ export default function Adcreate() {
                                     value={tel} />
                             </Grid>
                             <Grid item xs={12} >
-                                <Button type='submit' variant="contained" fullWidth>แก้ไข</Button>
+                                <Button type='submit' variant="contained" fullWidth>สร้าง</Button>
                             </Grid>
                         </Grid>
                     </form>

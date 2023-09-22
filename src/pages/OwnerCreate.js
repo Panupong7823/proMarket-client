@@ -1,10 +1,10 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
-export default function Adcreate() {
+export default function OwnerCreate() {
 
     
     const [cs_id, setCustomerID] = useState('');
@@ -14,6 +14,7 @@ export default function Adcreate() {
     const [password, setPassword] = useState('');
     const [career, setCareer] = useState('');
     const [tel, setTel] = useState('');
+
 
 
     const handleSubmit = (event) => {
@@ -39,7 +40,7 @@ export default function Adcreate() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:3001/regisAd", requestOptions)
+        fetch("http://localhost:3001/regisOW", requestOptions)
             .then(response => response.json())
             .then(result => {
                 alert('Success')

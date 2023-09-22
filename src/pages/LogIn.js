@@ -38,9 +38,8 @@ export default function SignIn() {
 
       if (data.status === 'ok') {
         localStorage.setItem('token', data.token);
-        setLoginSuccess(true); // เก็บสถานะการล็อกอินสำเร็จ
+        setLoginSuccess(true); 
 
-        // เก็บสิทธิ์ของผู้ใช้จาก row ของผู้ใช้ที่ล็อกอินเข้าสู่ระบบ
         setUserRole(data.user);
 
         alert('success');
@@ -56,13 +55,13 @@ export default function SignIn() {
   if (loginSuccess) {
     switch (userRole) {
       case 1:
-        navigate('/homeOw'); 
+        navigate('/customer/home'); 
         break;
       case 2:
-        navigate('/homeAd'); 
+        navigate('/admin/home'); 
         break;
       case 3:
-        navigate('/homeCs'); 
+        navigate('/owner/home');
         break;
       default:
         break;

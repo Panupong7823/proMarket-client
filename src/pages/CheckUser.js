@@ -20,7 +20,7 @@ export default function CheckUser() {
     const token = localStorage.getItem('token');
     setToken(() => token);
     const decodedData = JSON.parse(localStorage.getItem('decodedData'));
-    const userId = decodedData?.user_id;
+    const userId = decodedData?.cs_id;
 
     fetch(`http://localhost:3001/datauser/${userId}`, {
       headers: {
@@ -55,7 +55,7 @@ export default function CheckUser() {
             <Box display="flex">
               <Box sx={{ flexGrow: 1 }} >
                 <Typography variant="h6" gutterBottom component="div">
-                  Users
+                  ผู้ใช้งาน
                 </Typography>
               </Box>
             </Box>
@@ -77,7 +77,7 @@ export default function CheckUser() {
                     const datatlRow = data.datatl.find(datatlRow => datatlRow.cs_id === row.cs_id);
                     return (
                       <TableRow
-                        key={row.id}
+                        key={row.user_id}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                       >
                         <TableCell align="center">{row.cs_id}</TableCell>
@@ -85,7 +85,9 @@ export default function CheckUser() {
                         <TableCell align="center">{row.lastname}</TableCell>
                         <TableCell align="center">{row.career}</TableCell>
                         <TableCell align="center">{row.tel}</TableCell>
-                        <TableCell align="center">{row.salary.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                        <TableCell align="center">
+                          {row.salary ? row.salary.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : ''}
+                        </TableCell>
                         <TableCell align="center">
                           {datatlRow ? datatlRow.total.toLocaleString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0}
                         </TableCell>
@@ -102,3 +104,4 @@ export default function CheckUser() {
     </>
   );
 }
+

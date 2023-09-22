@@ -4,9 +4,9 @@ import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
-export default function Owcreate() {
+export default function AdminCreate() {
 
-    
+
     const [cs_id, setCustomerID] = useState('');
     const [firstname, setFname] = useState('');
     const [lastname, setLname] = useState('');
@@ -16,12 +16,11 @@ export default function Owcreate() {
     const [tel, setTel] = useState('');
 
 
-
     const handleSubmit = (event) => {
         event.preventDefault();
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
-        
+
 
         var raw = JSON.stringify({
             "cs_id": cs_id,
@@ -40,11 +39,11 @@ export default function Owcreate() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:3001/regisOW", requestOptions)
+        fetch("http://localhost:3001/regisAd", requestOptions)
             .then(response => response.json())
             .then(result => {
                 alert('Success')
-                if(result['status'] === 'ok'){
+                if (result['status'] === 'ok') {
                     window.location.href = '/o'
                 }
             })
@@ -57,7 +56,7 @@ export default function Owcreate() {
                 <CssBaseline />
                 <Container maxWidth="sm" sx={{ p: 2 }}>
                     <Typography variant="h6" gutterBottom component="div">
-                        Create User
+                        สร้างบัญชีผู้ใช้
                     </Typography>
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>

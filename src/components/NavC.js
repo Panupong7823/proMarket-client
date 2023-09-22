@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-export default function NavC({decodedData}) {
+export default function NavC({ decodedData }) {
   const navigate = useNavigate();
   const [decoded, setDecoded] = useState(null)
 
@@ -18,7 +18,7 @@ export default function NavC({decodedData}) {
     navigate('/');
   };
   return (
-    <div>
+    <div style={{ maxWidth: 'xl' }}>
       <nav className='Sub'>
         <h4>Subsomboon Supermarket</h4>
         <p>{decoded?.firstname} {decoded?.lastname}</p>
@@ -28,9 +28,9 @@ export default function NavC({decodedData}) {
           <LogoutIcon />
         </button>
         <h2> ทรัพย์สมบูรณ์ซุปเปอร์มาเก็ต</h2>
-        <a href='/homeCs'>หน้าหลัก</a>
-        <a href='/cb'>ข้อมูลค้างชำระ</a>
-        <a href='/cs'>ข้อมูลส่วนตัว</a>
+        <a href='/customer/home'>หน้าหลัก</a>
+        <a href='/balance/check'>ข้อมูลค้างชำระ</a>
+        <a href='/customer/check'>ข้อมูลส่วนตัว</a>
       </nav>
     </div>
   )

@@ -5,48 +5,39 @@ import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
-export default function Uedit() {
+export default function OwnerEditAO() {
     const { id } = useParams();
-    const [cs_id, setCustomerID] = useState('');
     const [firstname, setFname] = useState('');
     const [lastname, setLname] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [career, setCareer] = useState('');
-    const [tel, setTel] = useState('');
-    const [salary, setSalary] = useState('');
-
 
     useEffect(() => {
-
         try {
+            if (!id) {
+                return; 
+            }
+    
             var requestOptions = {
                 method: 'GET',
                 redirect: 'follow'
             };
+    
             fetch("http://localhost:3001/data/" + id, requestOptions)
                 .then(response => response.json())
                 .then(result => {
-                    console.log(result)
-                    setCustomerID(result?.cs_id)
-                    setFname(result?.firstname)
-                    setLname(result?.lastname)
-                    setUsername(result?.username)
-                    setPassword(result?.password)
-                    setCareer(result?.career)
-                    setTel(result?.tel)
-                    setSalary(result?.salary)
-                }
-                )
+                    console.log(result);
+                    setFname(result?.owner_firstname || '');
+                    setLname(result?.owner_lastname || '');
+                    setUsername(result?.username || '');
+                    setPassword(result?.password || '');
+                })
                 .catch(error => console.log('error', error));
+        } catch (err) {
+            alert(`${err}`);
         }
-        catch (err) {
-            alert(`${err}`)
-        }
-
-        // .catch(error => console.log('error', error));
     }, [id]);
-
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -55,14 +46,10 @@ export default function Uedit() {
 
         var raw = JSON.stringify({
             "id": id,
-            "cs_id": cs_id,
             "username": username,
             "password": password,
             "firstname": firstname,
             "lastname": lastname,
-            "career": career,
-            "tel": tel,
-            "salary": salary
         });
 
         var requestOptions = {
@@ -72,16 +59,17 @@ export default function Uedit() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:3001/update/" + id, requestOptions)
+        fetch("http://localhost:3001/update/admin/" + id, requestOptions)
             .then(response => response.json())
             .then(result => {
-                alert('Success')
+                alert('Success');
                 if (result['status'] === 'ok') {
-                    window.location.href = '/o'
+                    window.location.href = '/admin/datauser';
                 }
             })
             .catch(error => console.log('error', error));
     }
+
     return (
         <>
             <Nav />
@@ -93,11 +81,7 @@ export default function Uedit() {
                     </Typography>
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} >
-                                <TextField id="cs_id" label="Customer ID" variant="outlined" fullWidth required
-                                    onChange={(e) => setCustomerID(e.target.value)}
-                                    value={cs_id} />
-                            </Grid>
+                          
                             <Grid item xs={12} >
                                 <TextField id="firstname" label="Firstname" variant="outlined" fullWidth required
                                     onChange={(e) => setFname(e.target.value)}
@@ -121,25 +105,8 @@ export default function Uedit() {
                                     fullWidth
                                     type="password"
                                     onChange={(e) => setPassword(e.target.value)}
-                                    value={password} // ไม่ต้องใช้ค่าจาก state นี้ใน request
+                                    value={password}
                                 />
-                            </Grid>
-
-
-                            <Grid item xs={12} sm={6}>
-                                <TextField id="career" label="Career" variant="outlined" fullWidth required
-                                    onChange={(e) => setCareer(e.target.value)}
-                                    value={career} />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField id="tel" label="Telephone" variant="outlined" fullWidth required
-                                    onChange={(e) => setTel(e.target.value)}
-                                    value={tel} />
-                            </Grid>
-                            <Grid item xs={12} >
-                                <TextField id="salary" label="Salary" variant="outlined" fullWidth required
-                                    onChange={(e) => setSalary(e.target.value)}
-                                    value={salary} />
                             </Grid>
                             <Grid item xs={12} >
                                 <Button type='submit' variant="contained" fullWidth>แก้ไข</Button>
@@ -151,3 +118,4 @@ export default function Uedit() {
         </>
     );
 }
+

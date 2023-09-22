@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
@@ -10,7 +10,35 @@ export default function Bcreate() {
     const [cs_id, setCustomerID] = useState('');
     const [amount, setAmount] = useState('');
     const [status, setStatus] = useState(0);
-    
+    const [salary, setSalary] = useState(0);
+    const [total, setTotal] = useState(0);
+
+    useEffect(() => {
+        const requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        // ดึงข้อมูล salary
+        fetch("http://localhost:3001/data", requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data[0] && data[0].salary) {
+                    setSalary(data[0].salary);
+                }
+            })
+            .catch(error => console.log('error', error));
+
+        // ดึงข้อมูล total
+        fetch("http://localhost:3001/databalances", requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.datatotalResult && data.datatotalResult[0] && data.datatotalResult[0].total) {
+                    setTotal(data.datatotalResult[0].total);
+                }
+            })
+            .catch(error => console.log('error', error));
+    }, []);
 
     const handleStatusChange = (e) => {
         const selectedStatus = e.target.value;
@@ -19,33 +47,49 @@ export default function Bcreate() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+        const csIdToCheck = cs_id; 
+        let raw = '';
 
-        var raw = JSON.stringify({
-            "cs_id": cs_id,
-            "amount": amount,
-            "status": status
-        });
+        if (parseInt(total) > parseInt(salary)) {
+            if (parseInt(status) === 1) {
+                alert(`Customer ID ${csIdToCheck} มียอดค้างมากกว่าเงินเดือน`);
+            } else if (parseInt(status) === 2) {
+                raw = JSON.stringify({
+                    "cs_id": cs_id,
+                    "amount": amount,
+                    "status": status
+                });
+            }
+        } else {
+            raw = JSON.stringify({
+                "cs_id": cs_id,
+                "amount": amount,
+                "status": status
+            });
+        }
+        if (raw !== '') {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
 
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
 
-        fetch("http://localhost:3001/regisBl", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                alert('Success')
-                if (result['status'] === 'ok') {
-                    navigate('/iBl');
-                }
-            })
-            .catch(error => console.log('error', error));
+            fetch("http://localhost:3001/regisBl", requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    alert('Success')
+                    if (result['status'] === 'ok') {
+                        navigate('/InfoBsOw');
+                    }
+                })
+                .catch(error => console.log('error', error));
+        }
+
     }
-
     return (
         <>
             <Nav />

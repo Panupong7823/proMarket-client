@@ -5,13 +5,11 @@ import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField} from '@mui/material';
 
-export default function Bedit() {
+export default function BalanceEditAdmin() {
     const { id } = useParams();
     const [cs_id, setCustomerID] = useState('');
     const [date_time, setDateTime] = useState('');
     const [amount, setAmount] = useState('');
-    
-
     
     useEffect(() => {
         try {
@@ -63,7 +61,7 @@ export default function Bedit() {
             .then(result => {
                 alert('Success')
                 if (result['status'] === 'ok') {
-                    window.location.href = '/iBl'
+                    window.location.href = '/owner/balance/data'
                 }
             })
             .catch(error => console.log('error', error));

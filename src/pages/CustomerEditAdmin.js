@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
 
-export default function Ucreate() {
-
-    
+export default function CustomerEditAdmin() {
+    const { id } = useParams();
     const [cs_id, setCustomerID] = useState('');
     const [firstname, setFname] = useState('');
     const [lastname, setLname] = useState('');
@@ -16,12 +16,43 @@ export default function Ucreate() {
     const [tel, setTel] = useState('');
     const [salary, setSalary] = useState('');
 
+    useEffect(() => {
+        try {
+            if (!id) {
+                return;
+            }
+
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:3001/data/" + id, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    console.log(result);
+                    setCustomerID(result?.cs_id || '');
+                    setFname(result?.firstname || '');
+                    setLname(result?.lastname || '');
+                    setUsername(result?.username || '');
+                    setPassword(result?.password || '');
+                    setCareer(result?.career || '');
+                    setTel(result?.tel || '');
+                    setSalary(result?.salary || '');
+                })
+                .catch(error => console.log('error', error));
+        } catch (err) {
+            alert(`${err}`);
+        }
+    }, [id]);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
+            "id": id,
             "cs_id": cs_id,
             "username": username,
             "password": password,
@@ -29,26 +60,27 @@ export default function Ucreate() {
             "lastname": lastname,
             "career": career,
             "tel": tel,
-            "salary":salary
+            "salary": salary
         });
 
         var requestOptions = {
-            method: 'POST',
+            method: 'PUT',
             headers: myHeaders,
             body: raw,
             redirect: 'follow'
         };
 
-        fetch("http://localhost:3001/regis", requestOptions)
+        fetch("http://localhost:3001/update/" + id, requestOptions)
             .then(response => response.json())
             .then(result => {
-                alert('Success')
-                if(result['status'] === 'ok'){
-                    window.location.href = '/o'
+                alert('Success');
+                if (result['status'] === 'ok') {
+                    window.location.href = '/admin/datauser';
                 }
             })
             .catch(error => console.log('error', error));
     }
+
     return (
         <>
             <Nav />
@@ -56,7 +88,7 @@ export default function Ucreate() {
                 <CssBaseline />
                 <Container maxWidth="sm" sx={{ p: 2 }}>
                     <Typography variant="h6" gutterBottom component="div">
-                        Create User
+                        แก้ไขบัญชีผู้ใช้
                     </Typography>
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
@@ -81,10 +113,17 @@ export default function Ucreate() {
                                     value={username} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField id="password" label="Password" variant="outlined" fullWidth required
+                                <TextField
+                                    id="password"
+                                    label="รหัสผ่าน"
+                                    variant="outlined"
+                                    fullWidth
+                                    type="password"
                                     onChange={(e) => setPassword(e.target.value)}
-                                    value={password} />
+                                    value={password || ''} 
+                                />
                             </Grid>
+
                             <Grid item xs={12} sm={6}>
                                 <TextField id="career" label="Career" variant="outlined" fullWidth required
                                     onChange={(e) => setCareer(e.target.value)}
@@ -101,7 +140,7 @@ export default function Ucreate() {
                                     value={salary} />
                             </Grid>
                             <Grid item xs={12} >
-                                <Button type='submit' variant="contained" fullWidth>สร้าง</Button>
+                                <Button type='submit' variant="contained" fullWidth>แก้ไข</Button>
                             </Grid>
                         </Grid>
                     </form>
@@ -110,3 +149,4 @@ export default function Ucreate() {
         </>
     );
 }
+

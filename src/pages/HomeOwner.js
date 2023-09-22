@@ -10,20 +10,41 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import './Home.css';
 
-export default function HomeOW(){
+export default function HomeOwner() {
   const [decodedData, setDecodedData] = useState(null);
-  const [message, setMessage] = useState('กรุณาชำระเงินไม่เกินวันที่ 25 ของทุกเดือน \n หากเกินกำหนด จะขอยุติการจำหน่ายสินค้าจนกว่าจะชำระเงินเรียบร้อย');
+  const [message, setMessage] = useState('');
   const [newMessage, setNewMessage] = useState('');
   const [open, setOpen] = useState(false);
 
   const handleEditClick = () => {
-    setNewMessage(message); // กำหนดข้อความใหม่ให้เป็นค่าเดิมเมื่อเปิด Popup
+    setNewMessage(message);
     setOpen(true);
   };
 
   const handleChangeText = () => {
-    setOpen(false);
-    setMessage(newMessage);
+    fetch('http://localhost:3001/message', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+      body: JSON.stringify({ newMessage }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to update message');
+        }
+      })
+      .then((data) => {
+        setMessage(data.message);
+        setOpen(false);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert(error.message);
+      });
   };
 
   const handleClose = () => {
@@ -46,26 +67,37 @@ export default function HomeOW(){
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'ok') {
-          setDecodedData(() => {
-            localStorage.setItem('decodedData', JSON.stringify(data.decoded));
-            return data.decoded
-          });
+          localStorage.setItem('decodedData', JSON.stringify(data.decoded));
+          setDecodedData(data.decoded);
         } else {
-          alert('failed');
-          localStorage.removeItem(token)
+          alert('Failed');
+          localStorage.removeItem(token);
           window.location.href = '/';
         }
       })
       .catch((error) => {
-        console.log('Error', error);
+        console.error('Error:', error);
       });
   }, []);
 
   useEffect(() => {
-    if (decodedData && decodedData.role !== 1) {
-      window.location.href = '/'; 
-    }
-  }, [decodedData]);
+    fetch('http://localhost:3001/message')
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to fetch message');
+        }
+      })
+      .then((data) => {
+        setMessage(data.message);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert(error.message);
+      });
+
+  });
 
   return (
     <>
@@ -73,15 +105,23 @@ export default function HomeOW(){
       <div>
         <h1>ประกาศ</h1>
         <Box display="flex" justifyContent="center">
-          <Paper className="pp_noti" elevation={0} sx={{ bgcolor: ' #f9e1fe', padding: '16px', textAlign: 'center' }}>
+          <Paper
+            className="pp_noti"
+            elevation={0}
+            sx={{ bgcolor: ' #f9e1fe', padding: '16px', textAlign: 'center' }}
+          >
             <Typography variant="h6" sx={{ whiteSpace: 'pre-line' }}>
               {message}
             </Typography>
           </Paper>
         </Box>
-        <button onClick={handleEditClick}>แก้ไข</button>
+        <div style={{ display: 'flex', justifyContent: 'right',padding: '10px' }}>
+        <Button variant="contained" color="primary" onClick={handleEditClick}>
+          แก้ไขประกาศ
+        </Button>
+        </div>
         <Dialog open={open} onClose={handleClose}>
-          <DialogTitle >แก้ไขข้อความ</DialogTitle>
+          <DialogTitle>แก้ไขข้อความ</DialogTitle>
           <DialogContent>
             <TextField
               variant="outlined"

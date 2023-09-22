@@ -18,7 +18,8 @@ export default function Nav({decodedData}) {
     navigate('/');
   };
   return (
-    <div>
+
+    <div style={{ maxWidth: 'xl' }}>
       <nav className='Sub'>
         <h4>Subsomboon Supermarket</h4>
         <p>{decoded?.firstname} {decoded?.lastname}</p>
@@ -28,9 +29,9 @@ export default function Nav({decodedData}) {
           <LogoutIcon />
         </button>
         <h2> ทรัพย์สมบูรณ์ซุปเปอร์มาเก็ต</h2>
-        <a href='/homeAd'>หน้าหลัก</a>
-        <a href='/iBl'>ข้อมูลค้างชำระ</a>
-        <a href='/o'>ข้อมูลส่วนตัว</a>
+        <a href='/admin/home'>หน้าหลัก</a>
+        <a href='/admin/balance/data'>ข้อมูลค้างชำระ</a>
+        <a href='/admin/datauser'>ข้อมูลส่วนตัว</a>
       </nav>
     </div>
   )

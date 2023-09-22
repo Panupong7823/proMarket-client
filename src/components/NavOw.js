@@ -4,7 +4,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from "react-router-dom";
 
 
-export default function NavOw({decodedData}) {
+export default function NavOw({ decodedData }) {
   const navigate = useNavigate();
   const [decoded, setDecoded] = useState(null)
 
@@ -17,7 +17,7 @@ export default function NavOw({decodedData}) {
     navigate('/');
   };
   return (
-    <div>
+    <div style={{ maxWidth: 'xl' }}>
       <nav className='Sub'>
         <h4>Subsomboon Supermarket</h4>
         <p>{decoded?.firstname} {decoded?.lastname}</p>
@@ -27,9 +27,9 @@ export default function NavOw({decodedData}) {
           <LogoutIcon />
         </button>
         <h2> ทรัพย์สมบูรณ์ซุปเปอร์มาเก็ต</h2>
-        <a href='/homeOw'>หน้าหลัก</a>
-        <a href='/InfoBsOw'>ข้อมูลค้างชำระ</a>
-        <a href='/InfoUserOw'>ข้อมูลส่วนตัว</a>
+        <a href='/owner/home'>หน้าหลัก</a>
+        <a href='/owner/balance/data'>ข้อมูลค้างชำระ</a>
+        <a href='/owner/datauser'>ข้อมูลส่วนตัว</a>
       </nav>
     </div>
   )

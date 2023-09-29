@@ -144,7 +144,7 @@ export default function BalanceCreateAdmin() {
                         <Grid item xs={12}>
                             <TextField
                                 id="cs_id"
-                                label="Customer ID"
+                                label="รหัสผู้ใช้"
                                 variant="outlined"
                                 fullWidth
                                 required
@@ -155,7 +155,7 @@ export default function BalanceCreateAdmin() {
                         <Grid item xs={12}>
                             <TextField
                                 id="amount"
-                                label="Amount"
+                                label="จำนวนเงิน"
                                 variant="outlined"
                                 fullWidth
                                 required
@@ -177,7 +177,7 @@ export default function BalanceCreateAdmin() {
                         </Grid>
                         <Grid item xs={12}>
                             <Button type="submit" variant="contained" fullWidth>
-                                แก้ไข
+                                ยืนยัน
                             </Button>
                         </Grid>
                     </Grid>

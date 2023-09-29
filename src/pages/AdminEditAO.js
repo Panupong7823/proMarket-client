@@ -11,6 +11,7 @@ export default function AdminEditAO() {
     const [lastname, setLname] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState('');
 
     useEffect(() => {
         try {
@@ -31,13 +32,14 @@ export default function AdminEditAO() {
                     setLname(result?.admin_lastname || result?.owner_lastname || '');
                     setUsername(result?.username || '');
                     setPassword(result?.password || '');
+                    setRole(result?.role || '');
                 })
                 .catch(error => console.log('error', error));
         } catch (err) {
             alert(`${err}`);
         }
     }, [id]);
-
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -59,7 +61,12 @@ export default function AdminEditAO() {
             redirect: 'follow'
         };
 
-        let updateURL = "http://localhost:3001/update/admin/" + id;
+        let updateURL;
+        if (role === 2) {
+            updateURL = "http://localhost:3001/update/admin/" + id;
+        } else if (role === 3) {
+            updateURL = "http://localhost:3001/update/owner/" + id;
+        }
 
         fetch(updateURL, requestOptions)
             .then(response => response.json())
@@ -68,14 +75,12 @@ export default function AdminEditAO() {
                 if (result['status'] === 'ok') {
                     window.location.href = '/admin/datauser';
                 } else if (result['status'] === 'error' && result['message'] === 'Not found') {
-
-                    updateURL = "http://localhost:3001/update/owner/" + id;
                     fetch(updateURL, requestOptions)
                         .then(response => response.json())
                         .then(result => {
-                            alert('Success');
                             if (result['status'] === 'ok') {
                                 window.location.href = '/admin/datauser';
+                                alert('Success');
                             } else {
                                 alert('ไม่พบข้อมูลผู้ใช้');
                             }
@@ -85,8 +90,6 @@ export default function AdminEditAO() {
             })
             .catch(error => console.log('error', error));
     }
-
-
 
     return (
         <>
@@ -101,17 +104,17 @@ export default function AdminEditAO() {
                         <Grid container spacing={2}>
 
                             <Grid item xs={12} >
-                                <TextField id="firstname" label="Firstname" variant="outlined" fullWidth required
+                                <TextField id="firstname" label="ชื่อ" variant="outlined" fullWidth required
                                     onChange={(e) => setFname(e.target.value)}
                                     value={firstname} />
                             </Grid>
                             <Grid item xs={12} >
-                                <TextField id="lastname" label="Lastname" variant="outlined" fullWidth required
+                                <TextField id="lastname" label="นามสกุล" variant="outlined" fullWidth required
                                     onChange={(e) => setLname(e.target.value)}
                                     value={lastname} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField id="username" label="username" variant="outlined" fullWidth required
+                                <TextField id="username" label="ชื่อผู้ใช้" variant="outlined" fullWidth required
                                     onChange={(e) => setUsername(e.target.value)}
                                     value={username} />
                             </Grid>

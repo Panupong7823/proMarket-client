@@ -77,7 +77,7 @@ export default function BalanceEditAdmin() {
                             <Grid item xs={12} >
                                 <TextField
                                     id="cs_id"
-                                    label="Customer ID"
+                                    label="รหัสผู้ใช้"
                                     variant="outlined"
                                     fullWidth
                                     required
@@ -88,7 +88,7 @@ export default function BalanceEditAdmin() {
                             <Grid item xs={12} >
                                 <TextField
                                     id="date_time"
-                                    label="DateTime"
+                                    label="วันเวลา"
                                     variant="outlined"
                                     fullWidth
                                     required
@@ -99,7 +99,7 @@ export default function BalanceEditAdmin() {
                             <Grid item xs={12} >
                                 <TextField
                                     id="amount"
-                                    label="Amount"
+                                    label="จำนวนเงิน"
                                     variant="outlined"
                                     fullWidth
                                     required

@@ -15,7 +15,11 @@ export default function CustomerEditAdmin() {
     const [career, setCareer] = useState('');
     const [tel, setTel] = useState('');
     const [salary, setSalary] = useState('');
+    const [decoded, setDecoded] = useState(null)
 
+    useEffect(() => {
+        setDecoded(JSON.parse(localStorage.getItem('decodedData')))
+    })
     useEffect(() => {
         try {
             if (!id) {
@@ -75,7 +79,11 @@ export default function CustomerEditAdmin() {
             .then(result => {
                 alert('Success');
                 if (result['status'] === 'ok') {
-                    window.location.href = '/admin/datauser';
+                    if (decoded.role === 2) {
+                        window.location.href = '/admin/datauser';
+                    } else if (decoded.role === 3) {
+                        window.location.href = '/owner/datauser';
+                    }
                 }
             })
             .catch(error => console.log('error', error));
@@ -93,22 +101,22 @@ export default function CustomerEditAdmin() {
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} >
-                                <TextField id="cs_id" label="Customer ID" variant="outlined" fullWidth required
+                                <TextField id="cs_id" label="รหัสผู้ใช้" variant="outlined" fullWidth required
                                     onChange={(e) => setCustomerID(e.target.value)}
                                     value={cs_id} />
                             </Grid>
                             <Grid item xs={12} >
-                                <TextField id="firstname" label="Firstname" variant="outlined" fullWidth required
+                                <TextField id="firstname" label="ชื่อ" variant="outlined" fullWidth required
                                     onChange={(e) => setFname(e.target.value)}
                                     value={firstname} />
                             </Grid>
                             <Grid item xs={12} >
-                                <TextField id="lastname" label="Lastname" variant="outlined" fullWidth required
+                                <TextField id="lastname" label="นามสกุล" variant="outlined" fullWidth required
                                     onChange={(e) => setLname(e.target.value)}
                                     value={lastname} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField id="username" label="username" variant="outlined" fullWidth required
+                                <TextField id="username" label="ชื่อผู้ใช้" variant="outlined" fullWidth required
                                     onChange={(e) => setUsername(e.target.value)}
                                     value={username} />
                             </Grid>
@@ -125,17 +133,17 @@ export default function CustomerEditAdmin() {
                             </Grid>
 
                             <Grid item xs={12} sm={6}>
-                                <TextField id="career" label="Career" variant="outlined" fullWidth required
+                                <TextField id="career" label="อาชีพ" variant="outlined" fullWidth required
                                     onChange={(e) => setCareer(e.target.value)}
                                     value={career} />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField id="tel" label="Telephone" variant="outlined" fullWidth required
+                                <TextField id="tel" label="เบอร์โทรศัพท์" variant="outlined" fullWidth required
                                     onChange={(e) => setTel(e.target.value)}
                                     value={tel} />
                             </Grid>
                             <Grid item xs={12} >
-                                <TextField id="salary" label="Salary" variant="outlined" fullWidth required
+                                <TextField id="salary" label="เงินเดือน" variant="outlined" fullWidth required
                                     onChange={(e) => setSalary(e.target.value)}
                                     value={salary} />
                             </Grid>

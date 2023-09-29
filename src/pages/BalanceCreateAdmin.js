@@ -4,6 +4,8 @@ import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
+
 
 export default function BalanceCreateAdmin() {
     const navigate = useNavigate();
@@ -13,7 +15,6 @@ export default function BalanceCreateAdmin() {
     const [salary, setSalary] = useState(0);
     const [total, setTotal] = useState(0);
     const [dataSalary, setDataSalary] = useState(0);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -26,15 +27,7 @@ export default function BalanceCreateAdmin() {
                 // Fetch salary
                 const salaryResponse = await fetch("http://localhost:3001/data", requestOptions);
                 const salaryData = await salaryResponse.json();
-                setDataSalary(salaryData)
-                // if (salaryData && salaryData[0] && salaryData[0].salary) {
-                //     const filterData = salaryData?.filter((e) =>
-                //     e.cs_id === cs_id
-                // )
-                //     setSalary(filterData[0].salary);
-                // }
-
-                // console.log("salary", salary);
+                setDataSalary(salaryData);
 
                 // Fetch total
                 const totalResponse = await fetch("http://localhost:3001/databalances", requestOptions);
@@ -67,15 +60,20 @@ export default function BalanceCreateAdmin() {
             if (totalData) {
                 const filterData = totalData?.datatotalResult?.filter((e) =>
                     e.cs_id === cs_id
-                )
+                );
 
-                const csTotal = filterData[0].total;
+                const csTotal = filterData[0]?.total ?? 0; // Set total to 0 if filterData[0] is null
+
                 if (status === 1 && (parseInt(amount) + parseInt(csTotal) > parseInt(salary))) {
-                    alert("เงินไม่พอ")
+                    Swal.fire({
+                        title: 'เงินไม่พอ',
+                        icon: 'error',
+                        confirmButtonText: 'ยืนยัน'
+                      })
                     return;
                 }
 
-                if (status === 1 && parseInt(csTotal)  >= parseInt(salary)) {
+                if (status === 1 && parseInt(csTotal) >= parseInt(salary)) {
                     alert(`Customer ID ${csIdToCheck} has total balances within or less than their salary.`);
                     return;
                 }
@@ -104,17 +102,11 @@ export default function BalanceCreateAdmin() {
                         navigate('/admin/balance/data');
                     }
                 }
-
-
-                //  else {
-                //     alert(`Customer ID ${csIdToCheck} has outstanding balances greater than their salary.`);
-                // }
             }
         } catch (error) {
             console.error('Error submitting data:', error);
         }
     };
-
 
     const handleStatusChange = (e) => {
         const selectedStatus = e.target.value;
@@ -125,12 +117,11 @@ export default function BalanceCreateAdmin() {
         const cs_id = e.target.value;
         const filterData = dataSalary?.filter((e) =>
             e.cs_id === cs_id
-        )
-        setCustomerID(cs_id)
-        setSalary(filterData[0]?.salary);
+        );
+        setCustomerID(cs_id);
+        setSalary(filterData[0]?.salary ?? 0); // Set salary to 0 if filterData[0] is null
     };
 
-    console.log(salary);
     return (
         <>
             <Nav />
@@ -144,7 +135,7 @@ export default function BalanceCreateAdmin() {
                         <Grid item xs={12}>
                             <TextField
                                 id="cs_id"
-                                label="Customer ID"
+                                label="รหัสผู้ใช้"
                                 variant="outlined"
                                 fullWidth
                                 required
@@ -155,7 +146,7 @@ export default function BalanceCreateAdmin() {
                         <Grid item xs={12}>
                             <TextField
                                 id="amount"
-                                label="Amount"
+                                label="จำนวนเงิน"
                                 variant="outlined"
                                 fullWidth
                                 required
@@ -177,7 +168,7 @@ export default function BalanceCreateAdmin() {
                         </Grid>
                         <Grid item xs={12}>
                             <Button type="submit" variant="contained" fullWidth>
-                                แก้ไข
+                                ยืนยัน
                             </Button>
                         </Grid>
                     </Grid>
@@ -186,3 +177,4 @@ export default function BalanceCreateAdmin() {
         </>
     );
 }
+

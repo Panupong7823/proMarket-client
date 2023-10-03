@@ -41,7 +41,7 @@ export default function App() {
           <Route path="/owner/balance/create" element={<BalanceCreateOwner />} />
           <Route path="/admin/balance/create" element={<BalanceCreateAdmin />} />
           <Route path="/bcAd" element={<BCreateAdmin />} />
-          <Route path="admin/update/:id" element={<CustomerEditAdmin />} />
+          <Route path="/update/:id" element={<CustomerEditAdmin />} />
           <Route path="/updateAdOw/:id" element={<AdminEditAO />} />
           <Route path="/owner/updatebalance/:id" element={<BalanceEditOwner />} />
           <Route path="/admin/updatebalance/:id" element={<BalanceEditAdmin/>} />

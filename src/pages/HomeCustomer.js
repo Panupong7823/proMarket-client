@@ -27,7 +27,6 @@ export default function HomeAdmin() {
           localStorage.setItem('decodedData', JSON.stringify(data.decoded));
           setDecodedData(data.decoded);
         } else {
-          alert('Failed');
           localStorage.removeItem('token');
           window.location.href = '/';
         }

@@ -4,12 +4,13 @@ import Container from '@mui/material/Container';
 import NavOw from '../components/NavOw';
 import { Button, Grid, TextField, Typography, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
 export default function BalanceCreateAdmin() {
     const navigate = useNavigate();
     const [cs_id, setCustomerID] = useState('');
     const [amount, setAmount] = useState('');
-    const [status, setStatus] = useState(1); // Default status is set to 1
+    const [status, setStatus] = useState(1); 
     const [salary, setSalary] = useState(0);
     const [total, setTotal] = useState(0);
     const [dataSalary, setDataSalary] = useState(0);
@@ -23,20 +24,10 @@ export default function BalanceCreateAdmin() {
                     redirect: 'follow'
                 };
 
-                // Fetch salary
                 const salaryResponse = await fetch("http://localhost:3001/data", requestOptions);
                 const salaryData = await salaryResponse.json();
                 setDataSalary(salaryData)
-                // if (salaryData && salaryData[0] && salaryData[0].salary) {
-                //     const filterData = salaryData?.filter((e) =>
-                //     e.cs_id === cs_id
-                // )
-                //     setSalary(filterData[0].salary);
-                // }
-
-                // console.log("salary", salary);
-
-                // Fetch total
+    
                 const totalResponse = await fetch("http://localhost:3001/databalances", requestOptions);
                 const totalData = await totalResponse.json();
                 if (totalData && totalData.datatotalResult && totalData.datatotalResult[0] && totalData.datatotalResult[0].total) {
@@ -56,7 +47,7 @@ export default function BalanceCreateAdmin() {
         let raw = '';
 
         try {
-            // Fetch the total for the specific cs_id
+    
             const totalResponse = await fetch(`http://localhost:3001/databalances?cs_id=${cs_id}`, {
                 method: 'GET',
                 redirect: 'follow'
@@ -71,12 +62,22 @@ export default function BalanceCreateAdmin() {
 
                 const csTotal = filterData[0].total;
                 if (status === 1 && (parseInt(amount) + parseInt(csTotal) > parseInt(salary))) {
-                    alert("เงินไม่พอ")
+                    Swal.fire({
+                        title: 'เงินไม่พอ',
+                        icon: 'error',
+                        confirmButtonText: 'ยืนยัน'
+                    })
+                    return;
                     return;
                 }
 
                 if (status === 1 && parseInt(csTotal)  >= parseInt(salary)) {
-                    alert(`Customer ID ${csIdToCheck} has total balances within or less than their salary.`);
+                    Swal.fire({
+                        title: 'ข้อความแจ้งเตือน',
+                        text: `Customer ID ${csIdToCheck} มียอดคงเหลือรวมหรือน้อยกว่ารายได้ของพวกเขา`,
+                        icon: 'info', 
+                        confirmButtonText: 'ตกลง' 
+                      });
                     return;
                 }
                 raw = JSON.stringify({
@@ -100,15 +101,15 @@ export default function BalanceCreateAdmin() {
                     const result = await response.json();
 
                     if (result['status'] === 'ok') {
-                        alert('Success');
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'แก้ไขสำเร็จ',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
                         navigate('/admin/balance/data');
                     }
                 }
-
-
-                //  else {
-                //     alert(`Customer ID ${csIdToCheck} has outstanding balances greater than their salary.`);
-                // }
             }
         } catch (error) {
             console.error('Error submitting data:', error);

@@ -3,6 +3,7 @@ import Nav from '../components/Nav';
 import ConU from '../components/ConU';
 import { Paper, Typography, Box } from '@mui/material';
 import './Home.css';
+import Swal from 'sweetalert2'
 
 export default function HomeAdmin() {
   const [decodedData, setDecodedData] = useState(null);
@@ -27,7 +28,6 @@ export default function HomeAdmin() {
           localStorage.setItem('decodedData', JSON.stringify(data.decoded));
           setDecodedData(data.decoded);
         } else {
-          alert('Failed');
           localStorage.removeItem(token);
           window.location.href = '/';
         }
@@ -49,9 +49,12 @@ export default function HomeAdmin() {
       .then((data) => {
         setMessage(data.message);
       })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert(error.message);
+      .catch((err) => {
+        Swal.fire({
+          icon: 'error', 
+          title: 'เกิดข้อผิดพลาด',
+          text: `${err}`, 
+        });
       });
 
   });

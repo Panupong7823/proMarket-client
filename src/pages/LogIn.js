@@ -9,13 +9,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Navl from '../components/Navl';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2'
 
-
-export default function SignIn() {
+export default function LogIn() {
   const navigate = useNavigate()
   const [loginSuccess, setLoginSuccess] = useState(false);
-  const [userRole, setUserRole] = useState(null); // เก็บข้อมูลสิทธิ์ของผู้ใช้
-  
+  const [userRole, setUserRole] = useState(null); 
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -38,27 +38,27 @@ export default function SignIn() {
 
       if (data.status === 'ok') {
         localStorage.setItem('token', data.token);
-        setLoginSuccess(true); 
-
+        setLoginSuccess(true);
         setUserRole(data.user);
-
-        alert('success');
       } else {
-        alert('failed');
+        Swal.fire({
+          text: 'รหัสผู้ใช้ไม่ถูกต้อง',
+          icon: 'error',
+          confirmButtonText: 'ยืนยัน'
+        })
       }
     } catch (error) {
       console.log('Error', error);
     }
   };
 
-  // หากล็อกอินสำเร็จให้เปลี่ยนหน้าไปยังหน้าที่กำหนดตามสิทธิ์ของผู้ใช้
   if (loginSuccess) {
     switch (userRole) {
       case 1:
-        navigate('/customer/home'); 
+        navigate('/customer/home');
         break;
       case 2:
-        navigate('/admin/home'); 
+        navigate('/admin/home');
         break;
       case 3:
         navigate('/owner/home');
@@ -135,13 +135,13 @@ export default function SignIn() {
 
 
 function renderPageBasedOnUserRole(userRole) {
-  if (userRole === 1) { 
-    return 
-  } else if (userRole === 2) { 
-    return 
-  } else if (userRole === 3) { 
-    return 
-  }else {
+  if (userRole === 1) {
+    return
+  } else if (userRole === 2) {
+    return
+  } else if (userRole === 3) {
+    return
+  } else {
     return <div>not found</div>;
   }
 }

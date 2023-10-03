@@ -3,7 +3,7 @@ import './ConU.css'
 
 function ConU() {
   return (
-    <div>
+    <div style={{ width :'100%'}}>
       <nav className="navbar">
         <h3>ที่อยู่ : บริษัท พี.เอส.ที พาราวู้ด จำกัด เลขที่ 98 ม.4 ต.บางสวรรค์ อ.พระแสง จ.สุราษฎร์ธานี 84210    
         </h3>

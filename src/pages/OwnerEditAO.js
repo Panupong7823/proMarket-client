@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
+import Swal from 'sweetalert2'
 
 export default function OwnerEditAO() {
     const { id } = useParams();
@@ -34,7 +35,11 @@ export default function OwnerEditAO() {
                 })
                 .catch(error => console.log('error', error));
         } catch (err) {
-            alert(`${err}`);
+            Swal.fire({
+                icon: 'error', 
+                title: 'เกิดข้อผิดพลาด',
+                text: `${err}`, 
+              });
         }
     }, [id]);
     
@@ -62,7 +67,13 @@ export default function OwnerEditAO() {
         fetch("http://localhost:3001/update/admin/" + id, requestOptions)
             .then(response => response.json())
             .then(result => {
-                alert('Success');
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'แก้ไขสำเร็จ',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
                 if (result['status'] === 'ok') {
                     window.location.href = '/admin/datauser';
                 }

@@ -1,20 +1,23 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { format } from 'date-fns-tz'; // เปลี่ยน import นี้
+import { format } from 'date-fns-tz';
 import { th } from 'date-fns/locale';
 import { Typography } from '@mui/material';
 import { Box, Link } from '@mui/material';
+import Swal from 'sweetalert2'
 
 export default function DataBalanceAdmin() {
-  const [databalanceResult, setDatabalanceResult] = React.useState([]);
+  const [datauser, serDataUser] = useState([]);
+  const [databalanceResult, setDatabalanceResult] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     UserGet();
+    UserData();
   }, []);
 
   const UserGet = () => {
@@ -22,6 +25,13 @@ export default function DataBalanceAdmin() {
       .then(res => res.json())
       .then(result => {
         setDatabalanceResult(result.databalanceResult);
+      });
+  };
+  const UserData = () => {
+    fetch("http://localhost:3001/data")
+      .then((res) => res.json())
+      .then((result) => {
+        serDataUser(result);
       });
   };
 
@@ -46,7 +56,12 @@ export default function DataBalanceAdmin() {
     fetch("http://localhost:3001/deletebl", requestOptions)
       .then(response => response.json())
       .then(result => {
-        alert("Delete Success");
+        Swal.fire({
+          icon: 'success',
+          title: 'ลบสำเร็จ',
+          showConfirmButton: false,
+          timer: 1500
+        })
         UserGet();
       })
       .catch(error => console.log('error', error));
@@ -61,9 +76,23 @@ export default function DataBalanceAdmin() {
       align: 'center'
     },
     {
+      field: 'firstname',
+      headerName: 'ชื่อ',
+      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+    },
+    {
+      field: 'lastname',
+      headerName: 'นามสกุล',
+      width: 150,
+      headerAlign: 'center',
+      align: 'center',
+    },
+    {
       field: 'date_time',
       headerName: 'วันเวลา',
-      width: 200,
+      width: 150,
       headerAlign: 'center',
       align: 'center',
       valueGetter: (params) => {
@@ -72,12 +101,12 @@ export default function DataBalanceAdmin() {
         return format(date, `dd MMM ${thaiYear} HH:mm`, { locale: th, era: 'long' });
       },
     },
-    
+
 
     {
       field: 'staleAmount',
       headerName: 'ยอดค้าง',
-      width: 200,
+      width: 150,
       headerAlign: 'center',
       align: 'center',
       valueGetter: (params) =>
@@ -88,7 +117,7 @@ export default function DataBalanceAdmin() {
     {
       field: 'payAmount',
       headerName: 'ยอดจ่าย',
-      width: 200,
+      width: 150,
       headerAlign: 'center',
       align: 'center',
       valueGetter: (params) =>
@@ -145,13 +174,18 @@ export default function DataBalanceAdmin() {
         </Box>
 
 
-        <div style={{ height: 450, width: '85%', }}>
+        <div style={{ height: 450, width: '98%', }}>
           <DataGrid
-            rows={databalanceResult}
+            rows={databalanceResult.map((row) => ({
+              ...row,
+              firstname: datauser.find((user) => user.cs_id === row.cs_id)?.firstname || '',
+              lastname: datauser.find((user) => user.cs_id === row.cs_id)?.lastname || '',
+            }))}
             columns={columns}
             pageSize={2}
-            pageSizeOptions={[5, 10, 15, 100]} 
+            pageSizeOptions={[5, 10, 15, 100]}
           />
+
         </div>
       </Container>
     </>

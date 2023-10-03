@@ -79,7 +79,7 @@ export default function AdminCreate() {
                     Swal.fire({
                         title: 'ลงทะเบียนเรียบร้อย',
                         icon: 'success',
-                        showConfirmButton: false,
+                        confirmButtonText: 'ยืนยัน',
                     });
                     window.location.href = '/admin/datauser';
                 } else if (result['status'] === 'error' && result['message'] && result['message']['code'] === 'ER_DUP_ENTRY') {
@@ -87,7 +87,7 @@ export default function AdminCreate() {
                         title: 'Error',
                         text: 'รหัสผู้ใช้นี้มีแล้ว',
                         icon: 'error',
-                        confirmButtonText: 'ยืนยัน'
+                        confirmButtonText: 'ยืนยัน',
                     });
                 } else if (result['status'] === 'error' && result['message'] && result['message']['code'] === 'ER_BAD_FIELD_ERROR') {
                     Swal.fire({

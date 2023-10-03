@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import NavOw from '../components/NavOw';
 import { Button, Typography, ButtonGroup, Paper } from '@mui/material';
 import Link from '@mui/material/Link';
+import Swal from 'sweetalert2'
 
 export default function DataUserAdmin() {
   const [itemsData, setItemsData] = React.useState([]);
@@ -43,7 +44,7 @@ export default function DataUserAdmin() {
   };
 
   const Useredit = (user_id) => {
-    window.location = '/owner/update/' + user_id;
+    window.location = '/update/' + user_id;
   };
 
   const AdOwedit = (id) => {
@@ -68,7 +69,12 @@ export default function DataUserAdmin() {
     fetch("http://localhost:3001/delete", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        alert("Delete Success");
+        Swal.fire({
+          icon: 'success',
+          title: 'ลบสำเร็จ',
+          showConfirmButton: false,
+          timer: 1500
+        })
         if (isAd) {
           fetchDataOw();
         } else {
@@ -218,7 +224,7 @@ export default function DataUserAdmin() {
           flexDirection: 'column',
           alignItems: 'center',
         }} >
-        <Paper sx={{ marginTop: '20px', width: 1250 }}>
+        <Paper sx={{ width: 1250 }}>
           <Box sx={{ p: 3 }}>
             <Box display="flex">
               <Box sx={{ flexGrow: 1 }}>

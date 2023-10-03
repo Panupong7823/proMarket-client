@@ -19,10 +19,10 @@ export default function Nav({decodedData}) {
   };
   return (
 
-    <div style={{ maxWidth: 'xl' }}>
+    <div style={{ width :'100%'}}>
       <nav className='Sub'>
         <h4>Subsomboon Supermarket</h4>
-        <p>{decoded?.firstname} {decoded?.lastname}</p>
+        <p style={{color: 'white',marginRight:'24px'}}>{decoded?.firstname} {decoded?.lastname}</p>
       </nav>
       <nav>
         <button className="custom-button" onClick={handleNavigate}>

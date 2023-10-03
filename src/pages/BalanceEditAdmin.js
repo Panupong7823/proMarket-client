@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField} from '@mui/material';
+import Swal from 'sweetalert2'
 
 export default function BalanceEditAdmin() {
     const { id } = useParams();
@@ -24,13 +25,22 @@ export default function BalanceEditAdmin() {
                     setCustomerID(result?.cs_id)
                     setDateTime(result?.date_time)
                     setAmount(result?.amount)
-                    
                 }
                 )
-                .catch(error => console.log('error', error));
+                .catch(err => {
+                    Swal.fire({
+                        icon: 'error', 
+                        title: 'เกิดข้อผิดพลาด',
+                        text: `${err}`, 
+                      });
+                });
         }
         catch (err) {
-            alert(`${err}`)
+            Swal.fire({
+                icon: 'error', 
+                title: 'เกิดข้อผิดพลาด',
+                text: `${err}`, 
+              });
         }
 
         // .catch(error => console.log('error', error));
@@ -59,8 +69,13 @@ export default function BalanceEditAdmin() {
         fetch("http://localhost:3001/updatestale/" + id, requestOptions)
             .then(response => response.json())
             .then(result => {
-                alert('Success')
                 if (result['status'] === 'ok') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'แก้ไขสำเร็จ',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
                     window.location.href = '/owner/balance/data'
                 }
             })

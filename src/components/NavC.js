@@ -20,7 +20,7 @@ export default function NavC({ decodedData }) {
   return (
     <div style={{ maxWidth: 'xl' }}>
       <nav className='Sub'>
-        <h4>Subsomboon Supermarket</h4>
+        <h4>Supsomboon Supermarket</h4>
         <p style={{color: 'white',marginRight:'24px'}}>{decoded?.firstname} {decoded?.lastname}</p>
       </nav>
       <nav>

@@ -20,6 +20,7 @@ import BCreateAdmin from "./pages/ฺฺBCreateAdmin";
 import HomeOwner from "./pages/HomeOwner";
 import BalanceEditAdmin from "./pages/BalanceEditAdmin";
 import BalanceCreateAdmin from "./pages/BalanceCreateAdmin";
+import ShowDataBalance from "./pages/ShowDataBalance"
 
 
 export default function App() {
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="/admin/updatebalance/:id" element={<BalanceEditAdmin/>} />
           <Route path="/balance/check" element={<CheckBalance />} />
           <Route path="/customer/check" element={<CheckUser />} />
+          <Route path="/show" element={<ShowDataBalance />} />
         </Routes>
       </Router>
     </>

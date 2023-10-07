@@ -30,6 +30,7 @@ export default function NavOw({ decodedData }) {
         <a href='/owner/home'>หน้าหลัก</a>
         <a href='/owner/balance/data'>ข้อมูลค้างชำระ</a>
         <a href='/owner/datauser'>ข้อมูลส่วนตัว</a>
+        <a href='/show'>รายงาน</a>
       </nav>
     </div>
   )

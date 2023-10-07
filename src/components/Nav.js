@@ -32,6 +32,7 @@ export default function Nav({decodedData}) {
         <a href='/admin/home'>หน้าหลัก</a>
         <a href='/admin/balance/data'>ข้อมูลค้างชำระ</a>
         <a href='/admin/datauser'>ข้อมูลส่วนตัว</a>
+        <a href='/show'>รายงาน</a>
       </nav>
     </div>
   )

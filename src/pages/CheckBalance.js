@@ -4,6 +4,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import NavC from '../components/NavC';
 import { Box } from '@mui/material';
+import { format } from 'date-fns-tz';
+import { th } from 'date-fns/locale';
 
 const columns = [
   {
@@ -16,9 +18,14 @@ const columns = [
   {
     field: 'date_time',
     headerName: 'วันเวลา',
-    width: 200,
+    width: 150,
     headerAlign: 'center',
-    align: 'center'
+    align: 'center',
+    valueGetter: (params) => {
+      const date = new Date(params.row.date_time);
+      const thaiYear = date.getFullYear() + 543;
+      return format(date, `dd MMM ${thaiYear} HH:mm`, { locale: th, era: 'long' });
+    },
   },
 
   {
@@ -74,7 +81,6 @@ export default function CheckBalance() {
               columns={columns}
               rows={data.databl || []}
               pageSizeOptions={[5, 10, 15, 100]} 
-
             />
           </div>
         </Box>

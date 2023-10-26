@@ -15,6 +15,7 @@ export default function CustomerCreateAdmin() {
     const [tel, setTel] = useState('');
     const [salary, setSalary] = useState('');
     const [checkUsername, setCheckUsername] = useState([]);
+    const decodedData = JSON.parse(localStorage.getItem('decodedData'));
 
     useEffect(() => {
         fetchUsernames();
@@ -86,8 +87,11 @@ export default function CustomerCreateAdmin() {
                         title: 'ลงทะเบียนเรียบร้อย',
                         icon: 'success',
                         showConfirmButton: false,
-                    });
-                    window.location.href = '/admin/datauser';
+                    }).then(()=>{  if (decodedData && decodedData.role === 2) {
+                            window.location.href = '/admin/datauser';
+                        } else if (decodedData && decodedData.role === 3) {
+                            window.location.href = '/owner/datauser';
+                        }})
                 } else if (result['status'] === 'error' && result['message'] && result['message']['code'] === 'ER_DUP_ENTRY') {
                     Swal.fire({
                         title: 'Error',

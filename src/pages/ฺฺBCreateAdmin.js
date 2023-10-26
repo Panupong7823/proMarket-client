@@ -19,7 +19,6 @@ export default function Bcreate() {
             redirect: 'follow'
         };
 
-        // ดึงข้อมูล salary
         fetch("http://localhost:3001/data", requestOptions)
             .then(response => response.json())
             .then(data => {
@@ -29,7 +28,6 @@ export default function Bcreate() {
             })
             .catch(error => console.log('error', error));
 
-        // ดึงข้อมูล total
         fetch("http://localhost:3001/databalances", requestOptions)
             .then(response => response.json())
             .then(data => {

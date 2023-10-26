@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography } from '@mui/material';
+import Swal from 'sweetalert2'
 
 export default function AdminEditAO() {
     const { id } = useParams();
@@ -12,6 +13,7 @@ export default function AdminEditAO() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('');
+    const decodedData = JSON.parse(localStorage.getItem('decodedData'));
 
     useEffect(() => {
         try {
@@ -71,16 +73,30 @@ export default function AdminEditAO() {
         fetch(updateURL, requestOptions)
             .then(response => response.json())
             .then(result => {
-                alert('Success');
                 if (result['status'] === 'ok') {
-                    window.location.href = '/admin/datauser';
+                    if (result['status'] === 'ok') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'แก้ไขบัญชีผู่ใช้สำเร็จ',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then(()=>{
+                        if (decodedData && decodedData.role === 2) {
+                            window.location.href = '/admin/datauser';
+                        } else if (decodedData && decodedData.role === 3) {
+                            window.location.href = '/owner/datauser';
+                        }})
+                    }
                 } else if (result['status'] === 'error' && result['message'] === 'Not found') {
                     fetch(updateURL, requestOptions)
                         .then(response => response.json())
                         .then(result => {
                             if (result['status'] === 'ok') {
-                                window.location.href = '/admin/datauser';
-                                alert('Success');
+                                if (decodedData && decodedData.role === 2) {
+                                    window.location.href = '/admin/datauser';
+                                } else if (decodedData && decodedData.role === 3) {
+                                    window.location.href = '/owner/datauser';
+                                }
                             } else {
                                 alert('ไม่พบข้อมูลผู้ใช้');
                             }

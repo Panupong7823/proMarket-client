@@ -80,8 +80,7 @@ export default function OwnerCreate() {
                         title: 'ลงทะเบียนเรียบร้อย',
                         icon: 'success',
                         showConfirmButton: false,
-                    });
-                    window.location.href = '/admin/datauser';
+                    }).then(()=>{window.location.href = '/admin/datauser';})
                 } else if (result['status'] === 'error' && result['message'] && result['message']['code'] === 'ER_DUP_ENTRY') {
                     Swal.fire({
                         title: 'Error',

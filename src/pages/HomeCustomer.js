@@ -4,7 +4,7 @@ import ConU from '../components/ConU';
 import { Paper, Typography, Box } from '@mui/material';
 import './Home.css';
 
-export default function HomeAdmin() {
+export default function HomeCustomer() {
   const [decodedData, setDecodedData] = useState(null);
   const [message, setMessage] = useState('');
 

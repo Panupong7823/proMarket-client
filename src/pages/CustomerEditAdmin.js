@@ -83,12 +83,13 @@ export default function CustomerEditAdmin() {
                         title: 'แก้ไขบัญชีผู่ใช้สำเร็จ',
                         showConfirmButton: false,
                         timer: 1500
+                    }).then(() => {
+                        if (decoded.role === 2) {
+                            window.location.href = '/admin/datauser';
+                        } else if (decoded.role === 3) {
+                            window.location.href = '/owner/datauser';
+                        }
                     })
-                    if (decoded.role === 2) {
-                        window.location.href = '/admin/datauser';
-                    } else if (decoded.role === 3) {
-                        window.location.href = '/owner/datauser';
-                    }
                 }
             })
             .catch(err => {
@@ -113,7 +114,10 @@ export default function CustomerEditAdmin() {
                         <Grid item xs={12} >
                             <TextField id="cs_id" label="รหัสผู้ใช้" variant="outlined" fullWidth required
                                 onChange={(e) => setCustomerID(e.target.value)}
-                                value={cs_id} />
+                                value={cs_id} 
+                                InputProps={{
+                                    readOnly: true,
+                                }} />
                         </Grid>
                         <Grid item xs={6} >
                             <TextField id="firstname" label="ชื่อ" variant="outlined" fullWidth required

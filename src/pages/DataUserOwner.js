@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from "react";
 import { DataGrid } from '@mui/x-data-grid';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -9,11 +9,11 @@ import Link from '@mui/material/Link';
 import Swal from 'sweetalert2'
 
 export default function DataUserAdmin() {
-  const [itemsData, setItemsData] = React.useState([]);
-  const [itemsDataOw, setItemsDataOw] = React.useState([]);
-  const [datatotalResult, setDatatotalResult] = React.useState([]);
+  const [itemsData, setItemsData] = useState([]);
+  const [itemsDataOw, setItemsDataOw] = useState([]);
+  const [datatotalResult, setDatatotalResult] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchData();
     fetchDataOw();
     fetchDataBalances();
@@ -50,13 +50,12 @@ export default function DataUserAdmin() {
   const AdOwedit = (id) => {
     window.location = '/updateAdOw/' + id;
   };
-
-  const Userdel = (id, isAd) => {
+  const UserdelCustomer = (user_id, isAd) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      id: id,
+      user_id: user_id,
     });
 
     var requestOptions = {
@@ -66,7 +65,41 @@ export default function DataUserAdmin() {
       redirect: 'follow',
     };
 
-    fetch("http://localhost:3001/delete", requestOptions)
+    fetch("http://localhost:3001/delete/customer", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'ลบสำเร็จ',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        if (isAd) {
+          fetchDataOw();
+        } else {
+          fetchData();
+        }
+        fetchDataBalances();
+      })
+      .catch((error) => console.log('error', error));
+  };
+
+  const Userdel = (user_id, isAd) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      user_id: user_id,
+    });
+
+    var requestOptions = {
+      method: 'DELETE',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    fetch("http://localhost:3001/delete/admin-owner", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         Swal.fire({
@@ -144,16 +177,22 @@ export default function DataUserAdmin() {
       headerAlign: 'center',
       valueGetter: (params) => {
         const userId = params.row.cs_id;
-        const totalResult = datatotalResult.find((item) => item.cs_id === userId);
-
+        let totalResult = datatotalResult.find((item) => item.cs_id === userId);
+        if (totalResult == null) {
+          totalResult = 0;
+        }
+      
         if (totalResult) {
-          return totalResult.total;
+          return totalResult.total.toLocaleString();
         }
         return 0;
       },
       valueFormatter: ({ value }) => {
         if (value != null) {
-          return value.toLocaleString();
+          const numericValue = parseInt(value, 10); 
+          if (!isNaN(numericValue)) {
+            return numericValue.toLocaleString();
+          }
         }
         return "";
       },
@@ -169,7 +208,7 @@ export default function DataUserAdmin() {
       renderCell: (params) => (
         <ButtonGroup>
           <Button onClick={() => Useredit(params.row.user_id)}>แก้ไข</Button>
-          <Button onClick={() => Userdel(params.row.id, false)}>ลบ</Button>
+          <Button onClick={() => UserdelCustomer(params.row.user_id, false)}>ลบ</Button>
         </ButtonGroup>
       ),
     },
@@ -206,7 +245,7 @@ export default function DataUserAdmin() {
       renderCell: (params) => (
         <ButtonGroup>
           <Button onClick={() => AdOwedit(params.row.user_id)}>แก้ไข</Button>
-          <Button onClick={() => Userdel(params.row.id, false)}>ลบ</Button>
+          <Button onClick={() => Userdel(params.row.user_id, false)}>ลบ</Button>
         </ButtonGroup>
       ),
     },
@@ -233,7 +272,7 @@ export default function DataUserAdmin() {
                 </Typography>
               </Box>
               <Box style={{ marginBottom: '20px' }}>
-                <Link href="/admin/createuser">
+                <Link href="/createuser">
                   <Button variant="contained">สร้าง</Button>
                 </Link>
               </Box>

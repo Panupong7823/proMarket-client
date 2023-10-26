@@ -66,19 +66,38 @@ export default function BalanceEditOwner() {
         };
 
         fetch("http://localhost:3001/updatestale/" + id, requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                if (result['status'] === 'ok') {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'แก้ไขสำเร็จ',
-                        showConfirmButton: false,
-                        timer: 1500
-                      })
-                    window.location.href = '/owner/balance/data'
-                }
-            })
-            .catch(error => console.log('error', error));
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((result) => {
+          if (result['status'] === 'ok') {
+            Swal.fire({
+              icon: 'success',
+              title: 'แก้ไขสำเร็จ',
+              showConfirmButton: false,
+              timer: 1500
+            }).then(()=>{window.location.href = '/owner/balance/data';})
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'เกิดข้อผิดพลาดขณะแก้ไข',
+              text: 'กรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
+              confirmButtonText: 'ตกลง'
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('error', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: 'กรุณาลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
+            confirmButtonText: 'ตกลง'
+          });
+        });
     }
     return (
         <>
@@ -99,7 +118,7 @@ export default function BalanceEditOwner() {
                                     value={cs_id}
                                 />
                             </Grid>
-                            <Grid item xs={12} >
+                            {/* <Grid item xs={12} >
                                 <TextField
                                     id="date_time"
                                     label="วันเวลา"
@@ -109,7 +128,7 @@ export default function BalanceEditOwner() {
                                     onChange={(e) => setDateTime(e.target.value)}
                                     value={date_time}
                                 />
-                            </Grid>
+                            </Grid> */}
                             <Grid item xs={12} >
                                 <TextField
                                     id="amount"

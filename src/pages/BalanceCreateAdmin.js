@@ -104,7 +104,7 @@ export default function BalanceCreateAdmin() {
                     if (result['status'] === 'ok') {
                         Swal.fire({
                             icon: 'success',
-                            title: 'แก้ไขสำเร็จ',
+                            title: 'บันทึกสำเร็จ',
                             showConfirmButton: false,
                             timer: 1500
                           })

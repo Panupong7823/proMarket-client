@@ -38,8 +38,10 @@ export default function LogIn() {
 
       if (data.status === 'ok') {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('role', data.user);
         setLoginSuccess(true);
         setUserRole(data.user);
+
       } else {
         Swal.fire({
           text: 'รหัสผู้ใช้ไม่ถูกต้อง',
@@ -55,12 +57,15 @@ export default function LogIn() {
   if (loginSuccess) {
     switch (userRole) {
       case 1:
+        window.location.reload()
         navigate('/customer/home');
         break;
       case 2:
+        window.location.reload()
         navigate('/admin/home');
         break;
       case 3:
+        window.location.reload()
         navigate('/owner/home');
         break;
       default:

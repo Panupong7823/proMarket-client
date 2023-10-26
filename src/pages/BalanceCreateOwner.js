@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import NavOw from '../components/NavOw';
+import Nav from '../components/Nav';
 import { Button, Grid, TextField, Typography, Select, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
-export default function BalanceCreateAdmin() {
+
+export default function BalanceCreateOwner() {
     const navigate = useNavigate();
     const [cs_id, setCustomerID] = useState('');
+    const [firstname, setFirstName] = useState('');
+    const [lastname, setLastName] = useState('');
     const [amount, setAmount] = useState('');
-    const [status, setStatus] = useState(1); 
+    const [status, setStatus] = useState(1);
     const [salary, setSalary] = useState(0);
     const [total, setTotal] = useState(0);
     const [dataSalary, setDataSalary] = useState(0);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -26,8 +28,8 @@ export default function BalanceCreateAdmin() {
 
                 const salaryResponse = await fetch("http://localhost:3001/data", requestOptions);
                 const salaryData = await salaryResponse.json();
-                setDataSalary(salaryData)
-    
+                setDataSalary(salaryData);
+
                 const totalResponse = await fetch("http://localhost:3001/databalances", requestOptions);
                 const totalData = await totalResponse.json();
                 if (totalData && totalData.datatotalResult && totalData.datatotalResult[0] && totalData.datatotalResult[0].total) {
@@ -47,7 +49,6 @@ export default function BalanceCreateAdmin() {
         let raw = '';
 
         try {
-    
             const totalResponse = await fetch(`http://localhost:3001/databalances?cs_id=${cs_id}`, {
                 method: 'GET',
                 redirect: 'follow'
@@ -58,9 +59,10 @@ export default function BalanceCreateAdmin() {
             if (totalData) {
                 const filterData = totalData?.datatotalResult?.filter((e) =>
                     e.cs_id === cs_id
-                )
+                );
 
-                const csTotal = filterData[0].total;
+                const csTotal = filterData[0]?.total ?? 0;
+
                 if (status === 1 && (parseInt(amount) + parseInt(csTotal) > parseInt(salary))) {
                     Swal.fire({
                         title: 'เงินไม่พอ',
@@ -68,10 +70,9 @@ export default function BalanceCreateAdmin() {
                         confirmButtonText: 'ยืนยัน'
                     })
                     return;
-                    return;
                 }
 
-                if (status === 1 && parseInt(csTotal)  >= parseInt(salary)) {
+                if (status === 1 && parseInt(csTotal) >= parseInt(salary)) {
                     Swal.fire({
                         title: 'ข้อความแจ้งเตือน',
                         text: `Customer ID ${csIdToCheck} มียอดคงเหลือรวมหรือน้อยกว่ารายได้ของพวกเขา`,
@@ -103,11 +104,11 @@ export default function BalanceCreateAdmin() {
                     if (result['status'] === 'ok') {
                         Swal.fire({
                             icon: 'success',
-                            title: 'แก้ไขสำเร็จ',
+                            title: 'บันทึกสำเร็จ',
                             showConfirmButton: false,
                             timer: 1500
                           })
-                        navigate('/admin/balance/data');
+                        navigate('/owner/balance/data');
                     }
                 }
             }
@@ -116,7 +117,6 @@ export default function BalanceCreateAdmin() {
         }
     };
 
-
     const handleStatusChange = (e) => {
         const selectedStatus = e.target.value;
         setStatus(selectedStatus);
@@ -124,17 +124,19 @@ export default function BalanceCreateAdmin() {
 
     const handleIdChange = (e) => {
         const cs_id = e.target.value;
-        const filterData = dataSalary?.filter((e) =>
+        const filterData = dataSalary?.find((e) =>
             e.cs_id === cs_id
-        )
-        setCustomerID(cs_id)
-        setSalary(filterData[0]?.salary);
+        );
+        setCustomerID(cs_id);
+        setSalary(filterData?.salary || 0);
+        setFirstName(filterData?.firstname || '');
+        setLastName(filterData?.lastname || '');
     };
 
-    console.log(salary);
+
     return (
         <>
-            <NavOw />
+            <Nav />
             <CssBaseline />
             <Container maxWidth="sm" sx={{ p: 2 }}>
                 <Typography variant="h6" gutterBottom component="div">
@@ -153,6 +155,35 @@ export default function BalanceCreateAdmin() {
                                 value={cs_id}
                             />
                         </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                id="firstname"
+                                label="ชื่อ"
+                                variant="outlined"
+                                fullWidth
+                                required
+                                onChange={(e) => setFirstName(e.target.value)}
+                                value={firstname}
+                                InputProps={{
+                                    readOnly: true, 
+                                }}
+                            />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <TextField
+                                id="lastname"
+                                label="นามสกุล"
+                                variant="outlined"
+                                fullWidth
+                                required
+                                onChange={(e) => setLastName(e.target.value)}
+                                value={lastname}
+                                InputProps={{
+                                    readOnly: true, 
+                                }}
+                            />
+                        </Grid>
+
                         <Grid item xs={12}>
                             <TextField
                                 id="amount"
